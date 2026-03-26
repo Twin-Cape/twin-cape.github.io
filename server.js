@@ -66,8 +66,6 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(PORT, () => {
-  const url = `http://localhost:${PORT}`;
-  const link = `\x1b]8;;${url}\x1b\\${url}\x1b]8;;\x1b\\`;
-  console.log(`\n🌐 Server running at ${link}`);
+  console.log(`\n🌐 Server running at http://localhost:${PORT}`);
   console.log(`📁 Serving files from: ${DIST_DIR}\n`);
 });
