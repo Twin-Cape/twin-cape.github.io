@@ -162,16 +162,18 @@ nav .arrow {
 
 /* Layout */
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 main {
     background: var(--color-bg-primary);
     padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 1px 3px var(--color-shadow-sm);
+    border-radius: 0;
+    box-shadow: none;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 /* Content styling */
@@ -184,24 +186,26 @@ main h1 {
 /* Hero banner - first h1 and following paragraph */
 main > h1:first-of-type {
     font-size: 3.5rem;
-    margin: -2rem -2rem 0 -2rem;
-    padding: 6rem 2rem 4rem 2rem;
-    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+    margin: -2rem -2rem 2rem -2rem;
+    padding: 8rem 2rem;
+    background: linear-gradient(135deg, rgba(15, 20, 25, 0.9) 0%, rgba(26, 31, 46, 0.85) 50%, rgba(15, 20, 25, 0.9) 100%), 
                 url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1600&h=700&fit=crop') center/cover no-repeat;
+    background-attachment: fixed;
     color: var(--color-text-light);
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
     line-height: 1.2;
     position: relative;
+    font-weight: 700;
+    letter-spacing: -1px;
 }
 
 main > h1:first-of-type + p {
-    font-size: 1.4rem;
-    margin: 0 -2rem 2rem -2rem;
-    padding: 1rem 2rem 1.5rem 2rem;
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), transparent);
+    font-size: 1.3rem;
+    margin: -2rem -2rem 2rem -2rem;
+    padding: 1.5rem 2rem 2rem 2rem;
+    background: rgba(26, 31, 46, 0.75);
     color: var(--color-text-light);
-    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
-    margin-bottom: 2rem;
+    font-weight: 300;
+    letter-spacing: 0.5px;
 }
 
 main h2 {
@@ -308,10 +312,16 @@ footer p {
     }
 
     .container {
-        padding: 1rem;
+        padding: 0;
     }
 
     main {
-        padding: 1.5rem;
+        padding: 1rem;
+    }
+
+    main > h1:first-of-type,
+    main > h1:first-of-type + p {
+        margin: -1rem -1rem 1rem -1rem;
+        padding: 4rem 1rem;
     }
 }
