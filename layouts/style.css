@@ -181,6 +181,29 @@ main h1 {
     color: var(--color-primary-dark);
 }
 
+/* Hero banner - first h1 and following paragraph */
+main > h1:first-of-type {
+    font-size: 3.5rem;
+    margin: -2rem -2rem 0 -2rem;
+    padding: 6rem 2rem 4rem 2rem;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+                url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1600&h=700&fit=crop') center/cover no-repeat;
+    color: var(--color-text-light);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    line-height: 1.2;
+    position: relative;
+}
+
+main > h1:first-of-type + p {
+    font-size: 1.4rem;
+    margin: 0 -2rem 2rem -2rem;
+    padding: 1rem 2rem 1.5rem 2rem;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), transparent);
+    color: var(--color-text-light);
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+    margin-bottom: 2rem;
+}
+
 main h2 {
     font-size: 1.5rem;
     margin-top: 2rem;
