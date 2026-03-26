@@ -1,0 +1,23 @@
+{
+  "name": "markdown-ssg",
+  "version": "1.0.0",
+  "description": "Lightweight static site generator for markdown files",
+  "main": "build.js",
+  "scripts": {
+    "build": "node build.js",
+    "watch": "node build.js --watch",
+    "dev": "node dev.js"
+  },
+  "keywords": [
+    "static",
+    "site",
+    "generator",
+    "markdown"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "marked": "^12.0.0"
+  },
+  "devDependencies": {}
+}
