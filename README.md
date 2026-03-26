@@ -148,21 +148,56 @@ The current build script is designed to be easily extended without adding heavy 
 
 ## Deployment to GitHub Pages
 
+### Quick Publish (Recommended)
+
+Use the automated publish script:
+
+```bash
+npm run publish
+```
+
+This script:
+1. Builds the site
+2. Commits changes to the `gh-pages` branch
+3. Pushes to GitHub
+4. Returns to main branch
+
+That's it! Your site is published.
+
+### Manual Publishing
+
+If you prefer manual control:
+
 1. Build the site:
    ```bash
    npm run build
    ```
 
-2. Commit built files:
+2. Switch to gh-pages branch:
    ```bash
-   git add dist/
-   git commit -m "Build site"
-   git push
+   git checkout gh-pages
    ```
 
-3. In your GitHub repository settings, set the publishing source to the `dist/` folder
+3. Copy built files to root:
+   ```bash
+   cp dist/* .
+   git add -A
+   git commit -m "Publish: [date]"
+   git push origin gh-pages
+   git checkout main
+   ```
 
-Alternatively, use GitHub Actions to auto-build on push:
+### GitHub Pages Configuration
+
+Ensure your repository settings have GitHub Pages configured:
+- Go to **Settings** → **Pages**
+- Source: Branch `gh-pages`, folder `/ (root)`
+
+Your site will be live at: `https://<username>.github.io/`
+
+### Automated Deploy with GitHub Actions
+
+Alternatively, use GitHub Actions to auto-publish on each push to main:
 
 ```yaml
 name: Build and Deploy
@@ -172,7 +207,7 @@ on:
     branches: [main]
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -181,10 +216,12 @@ jobs:
           node-version: '18'
       - run: npm install
       - run: npm run build
-      - uses: actions/upload-artifact@v2
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          name: dist
-          path: dist/
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          publish_branch: gh-pages
 ```
 
 ## Tips
