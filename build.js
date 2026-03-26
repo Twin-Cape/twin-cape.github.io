@@ -3,6 +3,10 @@
 const fs = require('fs');
 const path = require('path');
 const { marked } = require('marked');
+const autoprefixer = require('autoprefixer');
+const postcss = require('postcss');
+const { minify: minifyHTML } = require('html-minifier');
+const csso = require('csso');
 
 // Configuration
 const SRC_DIR = path.join(__dirname, 'src');
@@ -143,6 +147,36 @@ function processMarkdown(srcFile, relDir) {
   return html;
 }
 
+// Process CSS: add vendor prefixes and minify
+async function processCSS(cssContent) {
+  try {
+    const result = await postcss([autoprefixer]).process(cssContent, { from: undefined });
+    const minified = csso.minify(result.css).css;
+    return minified;
+  } catch (error) {
+    console.error('CSS processing error:', error);
+    return cssContent;
+  }
+}
+
+// Minify HTML output
+function minifyHTMLOutput(html) {
+  try {
+    return minifyHTML(html, {
+      removeComments: true,
+      collapseWhitespace: true,
+      removeRedundantAttributes: true,
+      removeScriptTypeAttributes: true,
+      removeStyleLinkTypeAttributes: true,
+      minifyCSS: true,
+      minifyJS: true,
+    });
+  } catch (error) {
+    console.error('HTML minification error:', error);
+    return html;
+  }
+}
+
 // Recursively process all markdown files
 function processDirectory(dir, baseDir = '') {
   ensureDir(DIST_DIR);
@@ -162,28 +196,31 @@ function processDirectory(dir, baseDir = '') {
       processDirectory(srcPath, relDir);
     } else if (item.endsWith('.md') && !item.startsWith('_')) {
       const htmlContent = processMarkdown(srcPath, baseDir);
+      const minifiedHTML = minifyHTMLOutput(htmlContent);
       const htmlFileName = item.replace('.md', '.html');
       const distPath = path.join(DIST_DIR, baseDir, htmlFileName);
 
       ensureDir(path.dirname(distPath));
-      fs.writeFileSync(distPath, htmlContent, 'utf-8');
+      fs.writeFileSync(distPath, minifiedHTML, 'utf-8');
       console.log(`✓ Built: ${path.join(baseDir, htmlFileName)}`);
     }
   });
 }
 
 // Copy CSS files from layouts to dist
-function copyCSSFiles() {
+async function copyCSSFiles() {
   const items = fs.readdirSync(LAYOUTS_DIR);
 
-  items.forEach((item) => {
+  for (const item of items) {
     if (item.endsWith('.css')) {
       const srcPath = path.join(LAYOUTS_DIR, item);
       const destPath = path.join(DIST_DIR, item);
-      fs.copyFileSync(srcPath, destPath);
-      console.log(`✓ Copied: ${item}`);
+      const cssContent = fs.readFileSync(srcPath, 'utf-8');
+      const processedCSS = await processCSS(cssContent);
+      fs.writeFileSync(destPath, processedCSS, 'utf-8');
+      console.log(`✓ Processed & minified: ${item}`);
     }
-  });
+  }
 }
 
 // Copy public assets (images, etc.)
@@ -214,12 +251,12 @@ function copyPublicAssets() {
 }
 
 // Main build function
-function build() {
+async function build() {
   console.log('🔨 Building site...\n');
 
   ensureDir(DIST_DIR);
   processDirectory(SRC_DIR);
-  copyCSSFiles();
+  await copyCSSFiles();
   copyPublicAssets();
 
   console.log('\n✨ Build complete!');

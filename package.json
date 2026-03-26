@@ -18,7 +18,11 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "marked": "^12.0.0"
-  },
-  "devDependencies": {}
+    "autoprefixer": "^10.4.27",
+    "csso": "^5.0.5",
+    "csso-cli": "^4.0.2",
+    "html-minifier": "^4.0.0",
+    "marked": "^12.0.0",
+    "postcss": "^8.5.8"
+  }
 }
