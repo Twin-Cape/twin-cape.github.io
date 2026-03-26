@@ -279,21 +279,46 @@ async function build() {
   console.log('\n✨ Build complete!');
 }
 
+// Build lock to prevent concurrent builds
+let isBuilding = false;
+let buildQueued = false;
+
+async function queuedBuild() {
+  if (isBuilding) {
+    buildQueued = true;
+    return;
+  }
+
+  isBuilding = true;
+  try {
+    await build();
+  } catch (error) {
+    console.error('Build failed:', error.message);
+  } finally {
+    isBuilding = false;
+    if (buildQueued) {
+      buildQueued = false;
+      console.log('\n🔄 Running queued rebuild...');
+      await queuedBuild();
+    }
+  }
+}
+
 // Watch mode
 function watch() {
   console.log('👀 Watching for changes...\n');
-  build();
+  queuedBuild();
 
   fs.watch(SRC_DIR, { recursive: true }, (eventType, filename) => {
     if (filename && filename.endsWith('.md')) {
       console.log(`\n📝 Changed: ${filename}`);
-      build();
+      queuedBuild();
     }
   });
 
   fs.watch(LAYOUTS_DIR, { recursive: true }, () => {
     console.log('\n🎨 Layout changed');
-    build();
+    queuedBuild();
   });
 }
 
@@ -302,5 +327,8 @@ const args = process.argv.slice(2);
 if (args.includes('--watch') || args.includes('-w')) {
   watch();
 } else {
-  build();
+  build().catch(error => {
+    console.error('Build failed:', error.message);
+    process.exit(1);
+  });
 }
