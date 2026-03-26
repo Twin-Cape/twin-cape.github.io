@@ -5,7 +5,7 @@ nav_order: 1
 
 # Welcome to Twin Cape
 
-Redefining Canadian asset stewardship.
+We are redefining Canadian asset stewardship.
 
 ## What We Offer
 

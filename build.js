@@ -162,7 +162,7 @@ async function processCSS(cssContent) {
 // Minify HTML output
 function minifyHTMLOutput(html) {
   try {
-    return minifyHTML(html, {
+    const minified = minifyHTML(html, {
       removeComments: true,
       collapseWhitespace: true,
       removeRedundantAttributes: false,
@@ -173,8 +173,16 @@ function minifyHTMLOutput(html) {
       conservativeCollapse: true,
       ignoreCustomComments: [/data-/],
     });
+    
+    // Validate that essential structure is preserved
+    if (!minified.includes('<nav') || !minified.includes('</nav>')) {
+      console.warn('⚠️  Warning: Navigation tags may have been corrupted during minification');
+    }
+    
+    return minified;
   } catch (error) {
-    console.error('HTML minification error:', error);
+    console.error('HTML minification error:', error.message);
+    console.warn('⚠️  Returning unminified HTML due to minification error');
     return html;
   }
 }
@@ -204,6 +212,13 @@ function processDirectory(dir, baseDir = '') {
 
       ensureDir(path.dirname(distPath));
       fs.writeFileSync(distPath, minifiedHTML, 'utf-8');
+      
+      // Verify minification preserved structure
+      if (minifiedHTML.length === 0) {
+        console.error(`✗ ERROR: Minification resulted in empty output for ${path.join(baseDir, htmlFileName)}`);
+      } else if (!minifiedHTML.includes('<nav')) {
+        console.error(`✗ ERROR: Navigation missing after minification for ${path.join(baseDir, htmlFileName)}`);
+      }
       console.log(`✓ Built: ${path.join(baseDir, htmlFileName)}`);
     }
   });
