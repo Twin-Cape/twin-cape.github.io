@@ -171,6 +171,20 @@ function processDirectory(dir, baseDir = '') {
   });
 }
 
+// Copy CSS files from layouts to dist
+function copyCSSFiles() {
+  const items = fs.readdirSync(LAYOUTS_DIR);
+
+  items.forEach((item) => {
+    if (item.endsWith('.css')) {
+      const srcPath = path.join(LAYOUTS_DIR, item);
+      const destPath = path.join(DIST_DIR, item);
+      fs.copyFileSync(srcPath, destPath);
+      console.log(`✓ Copied: ${item}`);
+    }
+  });
+}
+
 // Copy public assets (images, etc.)
 function copyPublicAssets() {
   if (!fs.existsSync(PUBLIC_DIR)) {
@@ -204,6 +218,7 @@ function build() {
 
   ensureDir(DIST_DIR);
   processDirectory(SRC_DIR);
+  copyCSSFiles();
   copyPublicAssets();
 
   console.log('\n✨ Build complete!');
