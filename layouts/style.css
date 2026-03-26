@@ -114,8 +114,8 @@ nav .has-submenu > ul a.active {
 
 nav .arrow {
     font-size: 0.75rem;
-    margin-left: 0.5rem;
-    display: inline-block;
+    margin-left: 0.35rem;
+    display: inline;
     transition: transform 0.2s;
 }
 

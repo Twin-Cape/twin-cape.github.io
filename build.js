@@ -107,7 +107,7 @@ function renderNav(navItems, currentPath = '', isNested = false) {
 
     if (item.children) {
       html += `  <li class="has-submenu">\n`;
-      html += `    <span class="submenu-toggle" data-toggle="submenu">${item.title} <span class="arrow">▼</span></span>\n`;
+      html += `    <span class="submenu-toggle" data-toggle="submenu">${item.title}<span class="arrow">▼</span></span>\n`;
       html += renderNav(item.children, currentPath, true);
       html += `  </li>\n`;
     } else {
