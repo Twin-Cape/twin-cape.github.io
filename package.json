@@ -6,7 +6,8 @@
   "scripts": {
     "build": "node build.js",
     "watch": "node build.js --watch",
-    "dev": "node dev.js"
+    "dev": "node dev.js",
+    "publish": "./publish.sh"
   },
   "keywords": [
     "static",
