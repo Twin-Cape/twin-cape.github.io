@@ -97,23 +97,24 @@ function buildNavigation(srcPath = SRC_DIR, navPath = '') {
 }
 
 // Render navigation as HTML
-function renderNav(navItems, currentPath = '') {
+function renderNav(navItems, currentPath = '', isNested = false) {
   if (navItems.length === 0) return '';
 
-  let html = '<nav><ul>\n';
+  let html = isNested ? '<ul>\n' : '<nav><ul>\n';
   navItems.forEach((item) => {
     const isActive = currentPath === item.path;
     const activeClass = isActive ? ' class="active"' : '';
 
     if (item.children) {
-      html += `  <li><span>${item.title}</span>\n`;
-      html += renderNav(item.children, currentPath).replace(/^<nav><ul>\n/, '    <ul>\n').replace(/<\/ul><\/nav>$/, '    </ul>\n');
-      html += '  </li>\n';
+      html += `  <li class="has-submenu">\n`;
+      html += `    <span class="submenu-toggle" data-toggle="submenu">${item.title} <span class="arrow">▼</span></span>\n`;
+      html += renderNav(item.children, currentPath, true);
+      html += `  </li>\n`;
     } else {
       html += `    <li><a href="${item.path}"${activeClass}>${item.title}</a></li>\n`;
     }
   });
-  html += '</ul></nav>\n';
+  html += isNested ? '</ul>\n' : '</ul></nav>\n';
 
   return html;
 }
