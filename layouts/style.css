@@ -1,3 +1,38 @@
+:root {
+    /* === NEAR-BLACK THEME BASE === */
+    --color-surface-dark: #1a1f2e;
+    --color-text-light: #f5f8fa;
+
+    /* === PRIMARY BRAND COLORS (Blue spectrum) === */
+    --color-primary-dark: #1e3a8a;
+    --color-primary: #1e40af;
+    --color-primary-light: #2563eb;
+
+    /* === NEUTRALS & SURFACES === */
+    --color-bg-primary: #ffffff;
+    --color-bg-secondary: #f9f9f9;
+    --color-bg-tertiary: #f5f5f5;
+
+    /* === TEXT COLORS === */
+    --color-text-primary: #1f2937;
+    --color-text-secondary: #4b5563;
+    --color-text-muted: #9ca3af;
+
+    /* === INTERACTIVE ELEMENTS === */
+    --color-border: #e5e7eb;
+    --color-hover: #f0f0f0;
+
+    /* === VISUAL EFFECTS === */
+    --color-shadow: rgba(0, 0, 0, 0.1);
+    --color-shadow-sm: rgba(0, 0, 0, 0.05);
+
+    /* === SEMANTIC COLORS (for future use) === */
+    --color-success: #10b981;
+    --color-warning: #f59e0b;
+    --color-error: #ef4444;
+    --color-info: #3b82f6;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -7,16 +42,16 @@
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     line-height: 1.6;
-    color: #333;
-    background-color: #f9f9f9;
+    color: var(--color-text-primary);
+    background-color: var(--color-bg-secondary);
 }
 
 /* Header */
 header {
-    background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+    background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 100%);
     color: white;
     padding: 2rem 0;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px var(--color-shadow-sm);
 }
 
 header h1 {
@@ -28,8 +63,8 @@ header h1 {
 
 /* Navigation */
 nav {
-    background-color: white;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    background-color: var(--color-bg-primary);
+    box-shadow: 0 1px 3px var(--color-shadow-sm);
     position: sticky;
     top: 0;
     z-index: 100;
@@ -53,7 +88,7 @@ nav span,
 nav .submenu-toggle {
     display: block;
     padding: 1rem 1.5rem;
-    color: #333;
+    color: var(--color-text-primary);
     text-decoration: none;
     transition: background-color 0.2s;
     cursor: pointer;
@@ -61,12 +96,12 @@ nav .submenu-toggle {
 
 nav a:hover,
 nav .submenu-toggle:hover {
-    background-color: #f0f0f0;
+    background-color: var(--color-hover);
 }
 
 nav a.active {
-    color: #1e40af;
-    border-bottom: 3px solid #1e40af;
+    color: var(--color-primary);
+    border-bottom: 3px solid var(--color-primary);
 }
 
 /* Dropdown submenu styles */
@@ -78,8 +113,8 @@ nav .has-submenu > ul {
     position: absolute;
     top: 100%;
     left: 0;
-    background-color: white;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: var(--color-bg-primary);
+    box-shadow: 0 4px 6px var(--color-shadow);
     border-radius: 4px;
     min-width: 200px;
     display: none;
@@ -104,12 +139,12 @@ nav .has-submenu > ul a {
 }
 
 nav .has-submenu > ul a:hover {
-    background-color: #f0f0f0;
+    background-color: var(--color-hover);
 }
 
 nav .has-submenu > ul a.active {
-    color: #1e40af;
-    background-color: #f9f9f9;
+    color: var(--color-primary);
+    background-color: var(--color-bg-secondary);
 }
 
 nav .arrow {
@@ -127,31 +162,31 @@ nav .arrow {
 }
 
 main {
-    background: white;
+    background: var(--color-bg-primary);
     padding: 2rem;
     border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 3px var(--color-shadow-sm);
 }
 
 /* Content styling */
 main h1 {
     font-size: 2rem;
     margin-bottom: 1rem;
-    color: #1e3a8a;
+    color: var(--color-primary-dark);
 }
 
 main h2 {
     font-size: 1.5rem;
     margin-top: 2rem;
     margin-bottom: 1rem;
-    color: #1e40af;
+    color: var(--color-primary);
 }
 
 main h3 {
     font-size: 1.2rem;
     margin-top: 1.5rem;
     margin-bottom: 0.75rem;
-    color: #2563eb;
+    color: var(--color-primary-light);
 }
 
 main p {
@@ -176,7 +211,7 @@ main img {
 }
 
 main code {
-    background-color: #f5f5f5;
+    background-color: var(--color-bg-tertiary);
     padding: 0.2rem 0.4rem;
     border-radius: 3px;
     font-family: 'Courier New', Courier, monospace;
@@ -184,7 +219,7 @@ main code {
 }
 
 main pre {
-    background-color: #f5f5f5;
+    background-color: var(--color-bg-tertiary);
     padding: 1rem;
     border-radius: 4px;
     overflow-x: auto;
@@ -197,17 +232,17 @@ main pre code {
 }
 
 main blockquote {
-    border-left: 4px solid #1e40af;
+    border-left: 4px solid var(--color-primary);
     padding-left: 1rem;
     margin: 1rem 0;
-    color: #666;
+    color: var(--color-text-secondary);
     font-style: italic;
 }
 
 /* Footer */
 footer {
-    background-color: #1f2937;
-    color: white;
+    background-color: var(--color-surface-dark);
+    color: var(--color-text-light);
     text-align: center;
     padding: 2rem;
     margin-top: 3rem;
