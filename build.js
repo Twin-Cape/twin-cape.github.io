@@ -165,11 +165,13 @@ function minifyHTMLOutput(html) {
     return minifyHTML(html, {
       removeComments: true,
       collapseWhitespace: true,
-      removeRedundantAttributes: true,
+      removeRedundantAttributes: false,
       removeScriptTypeAttributes: true,
       removeStyleLinkTypeAttributes: true,
       minifyCSS: true,
       minifyJS: true,
+      conservativeCollapse: true,
+      ignoreCustomComments: [/data-/],
     });
   } catch (error) {
     console.error('HTML minification error:', error);

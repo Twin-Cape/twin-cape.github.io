@@ -3,9 +3,9 @@ title: Home
 nav_order: 1
 ---
 
-# Welcome to Our Investment Management Firm
+# Welcome to Twin Cape
 
-We provide comprehensive investment solutions tailored to meet the unique needs of our clients.
+Redefining Canadian asset stewardship.
 
 ## What We Offer
 
