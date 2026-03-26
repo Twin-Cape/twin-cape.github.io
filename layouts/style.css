@@ -9,6 +9,10 @@
     --color-accent: #1e40af;
     --color-accent-light: #2563eb;
 
+    /* === CALL-TO-ACTION (Vibrant Sky Blue - distinct from Apple & accent) === */
+    --color-cta: #0ea5e9;
+    --color-cta-hover: #0284c7;
+
     /* === NEUTRALS & SURFACES === */
     --color-bg-primary: #ffffff;
     --color-bg-secondary: #f9f9f9;
@@ -181,7 +185,7 @@ main h2 {
     font-size: 1.5rem;
     margin-top: 2rem;
     margin-bottom: 1rem;
-    color: var(--color-accent);
+    color: var(--color-primary);
 }
 
 main h3 {
