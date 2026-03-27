@@ -2,11 +2,12 @@
   "name": "markdown-ssg",
   "version": "1.0.0",
   "description": "Lightweight static site generator for markdown files",
-  "main": "build.js",
+  "main": "build.ts",
   "scripts": {
-    "build": "node build.js",
-    "watch": "node build.js --watch",
-    "dev": "node dev.js",
+    "build": "npx ts-node build.ts",
+    "watch": "npx ts-node build.ts --watch",
+    "dev": "npx ts-node dev.ts",
+    "lint": "npx eslint --config config/.eslintrc.json *.ts layouts/nav.ts",
     "publish": "./publish.sh"
   },
   "keywords": [
@@ -24,5 +25,14 @@
     "html-minifier": "^4.0.0",
     "marked": "^12.0.0",
     "postcss": "^8.5.8"
+  },
+  "devDependencies": {
+    "@types/html-minifier": "^4.0.6",
+    "@types/node": "^25.5.0",
+    "@typescript-eslint/eslint-plugin": "^8.57.2",
+    "@typescript-eslint/parser": "^8.57.2",
+    "eslint": "^10.1.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
   }
 }

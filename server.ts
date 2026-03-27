@@ -1,13 +1,13 @@
-#!/usr/bin/env node
+#!/usr/bin/env ts-node
 
-const http = require('http');
-const fs = require('fs');
-const path = require('path');
+import http from 'http';
+import fs from 'fs';
+import path from 'path';
 
 const PORT = 8080;
 const DIST_DIR = path.join(__dirname, 'dist');
 
-const MIME_TYPES = {
+const MIME_TYPES: Record<string, string> = {
   '.html': 'text/html; charset=utf-8',
   '.js': 'application/javascript',
   '.css': 'text/css',
@@ -26,7 +26,7 @@ const MIME_TYPES = {
 };
 
 const server = http.createServer((req, res) => {
-  let pathname = new URL(req.url, `http://${req.headers.host}`).pathname;
+  let pathname = new URL(req.url ?? '/', `http://${req.headers.host ?? 'localhost'}`).pathname;
 
   // Handle root path
   if (pathname === '/') {
@@ -47,7 +47,7 @@ const server = http.createServer((req, res) => {
   // Try to serve the file
   fs.readFile(filePath, (err, content) => {
     if (err) {
-      if (err.code === 'ENOENT') {
+      if ((err as NodeJS.ErrnoException).code === 'ENOENT') {
         res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
         res.end('<h1>404 - File Not Found</h1><p>The requested file could not be found.</p>');
       } else {
@@ -58,7 +58,7 @@ const server = http.createServer((req, res) => {
     }
 
     const ext = path.extname(filePath).toLowerCase();
-    const contentType = MIME_TYPES[ext] || 'application/octet-stream';
+    const contentType = MIME_TYPES[ext] ?? 'application/octet-stream';
 
     res.writeHead(200, { 'Content-Type': contentType });
     res.end(content);

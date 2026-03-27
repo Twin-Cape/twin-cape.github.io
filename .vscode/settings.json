@@ -1,0 +1,12 @@
+{
+  "eslint.options": {
+    "overrideConfigFile": "config/.eslintrc.json"
+  },
+  "eslint.validate": ["typescript"],
+  "files.exclude": {
+    "tsconfig.json": true,
+    "config/": true,
+    "dist/": true,
+    "package-lock.json": true
+  }
+}

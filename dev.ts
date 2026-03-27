@@ -1,16 +1,16 @@
-#!/usr/bin/env node
+#!/usr/bin/env ts-node
 
-const { spawn } = require('child_process');
+import { spawn } from 'child_process';
 
 console.log('🚀 Starting development server...\n');
 
 // Start the build watcher
-const buildProcess = spawn('node', ['build.js', '--watch'], {
+const buildProcess = spawn('npx', ['ts-node', 'build.ts', '--watch'], {
   stdio: 'inherit',
 });
 
 // Start the HTTP server
-const serverProcess = spawn('node', ['server.js'], {
+const serverProcess = spawn('npx', ['ts-node', 'server.ts'], {
   stdio: 'inherit',
 });
 
@@ -23,16 +23,16 @@ process.on('SIGINT', () => {
 });
 
 // Handle errors
-buildProcess.on('error', (err) => {
+buildProcess.on('error', (err: Error) => {
   console.error('Build process error:', err);
 });
 
-serverProcess.on('error', (err) => {
+serverProcess.on('error', (err: Error) => {
   console.error('Server process error:', err);
 });
 
 // Exit if either process exits unexpectedly
-buildProcess.on('exit', (code) => {
+buildProcess.on('exit', (code: number | null) => {
   if (code !== null && code !== 0) {
     console.error('Build process exited with code', code);
     serverProcess.kill();
@@ -40,7 +40,7 @@ buildProcess.on('exit', (code) => {
   }
 });
 
-serverProcess.on('exit', (code) => {
+serverProcess.on('exit', (code: number | null) => {
   if (code !== null && code !== 0) {
     console.error('Server process exited with code', code);
     buildProcess.kill();

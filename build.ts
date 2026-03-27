@@ -1,12 +1,15 @@
-#!/usr/bin/env node
+#!/usr/bin/env ts-node
+/// <reference path="./config/declarations.d.ts" />
 
-const fs = require('fs');
-const path = require('path');
-const { marked } = require('marked');
-const autoprefixer = require('autoprefixer');
-const postcss = require('postcss');
-const { minify: minifyHTML } = require('html-minifier');
-const csso = require('csso');
+import fs from 'fs';
+import path from 'path';
+import crypto from 'crypto';
+import { marked } from 'marked';
+import autoprefixer from 'autoprefixer';
+import postcss from 'postcss';
+import { minify as minifyHTML } from 'html-minifier';
+import csso from 'csso';
+import { execSync } from 'child_process';
 
 // Configuration
 const SRC_DIR = path.join(__dirname, 'src');
@@ -14,8 +17,27 @@ const DIST_DIR = path.join(__dirname, 'dist');
 const LAYOUTS_DIR = path.join(__dirname, 'layouts');
 const PUBLIC_DIR = path.join(__dirname, 'public');
 
+interface FrontMatter {
+  title?: string;
+  nav_order?: string;
+  nav_parent?: string;
+  [key: string]: string | undefined;
+}
+
+interface ParsedContent {
+  metadata: FrontMatter;
+  content: string;
+}
+
+interface NavItem {
+  title: string;
+  path: string;
+  order?: number;
+  children?: NavItem[];
+}
+
 // Ensure output directory exists
-function ensureDir(dir) {
+function ensureDir(dir: string): void {
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir, { recursive: true });
   }
@@ -28,7 +50,7 @@ function ensureDir(dir) {
 // nav_order: 1
 // nav_parent: /path
 // ---
-function parseFrontMatter(content) {
+function parseFrontMatter(content: string): ParsedContent {
   const frontMatterRegex = /^---\n([\s\S]*?)\n---\n([\s\S]*)$/;
   const match = content.match(frontMatterRegex);
 
@@ -36,7 +58,7 @@ function parseFrontMatter(content) {
     return { metadata: {}, content };
   }
 
-  const metadata = {};
+  const metadata: FrontMatter = {};
   const lines = match[1].split('\n');
 
   lines.forEach((line) => {
@@ -51,7 +73,7 @@ function parseFrontMatter(content) {
 }
 
 // Load template
-function loadTemplate(templateName = 'page.html') {
+function loadTemplate(templateName = 'page.html'): string {
   const templatePath = path.join(LAYOUTS_DIR, templateName);
   if (!fs.existsSync(templatePath)) {
     console.warn(`Template ${templateName} not found, using minimal fallback`);
@@ -61,8 +83,8 @@ function loadTemplate(templateName = 'page.html') {
 }
 
 // Build navigation structure from source tree
-function buildNavigation(srcPath = SRC_DIR, navPath = '') {
-  const nav = [];
+function buildNavigation(srcPath: string = SRC_DIR, navPath = ''): NavItem[] {
+  const nav: NavItem[] = [];
   const items = fs.readdirSync(srcPath);
 
   items.forEach((item) => {
@@ -82,36 +104,35 @@ function buildNavigation(srcPath = SRC_DIR, navPath = '') {
         });
       }
     } else if (item.endsWith('.md') && !item.startsWith('_')) {
-      const mdPath = fullPath;
-      const content = fs.readFileSync(mdPath, 'utf-8');
-      const { metadata } = parseFrontMatter(content);
+      const mdContent = fs.readFileSync(fullPath, 'utf-8');
+      const { metadata } = parseFrontMatter(mdContent);
 
       nav.push({
-        title: metadata.title || item.replace('.md', '').replace(/-/g, ' '),
+        title: metadata.title ?? item.replace('.md', '').replace(/-/g, ' '),
         path: `/${relPath.replace('.md', '.html')}`,
-        order: parseInt(metadata.nav_order || '999'),
+        order: parseInt(metadata.nav_order ?? '999', 10),
       });
     }
   });
 
   // Sort by order
-  nav.sort((a, b) => (a.order || 999) - (b.order || 999));
+  nav.sort((a, b) => (a.order ?? 999) - (b.order ?? 999));
 
   return nav;
 }
 
 // Render navigation as HTML
-function renderNav(navItems, currentPath = '', isNested = false) {
+function renderNav(navItems: NavItem[], currentPath = '', isNested = false): string {
   if (navItems.length === 0) return '';
 
-  let html = isNested ? '<ul>\n' : '<nav><ul>\n';
+  let html = isNested ? '<ul>\n' : '<nav id="site-nav" aria-label="Primary"><ul>\n';
   navItems.forEach((item) => {
     const isActive = currentPath === item.path;
     const activeClass = isActive ? ' class="active"' : '';
 
     if (item.children) {
       html += `  <li class="has-submenu">\n`;
-      html += `    <span class="submenu-toggle" data-toggle="submenu">${item.title}<span class="arrow">▼</span></span>\n`;
+      html += `    <button class="submenu-toggle" type="button" aria-expanded="false" aria-haspopup="true">${item.title}<span class="arrow" aria-hidden="true">▼</span></button>\n`;
       html += renderNav(item.children, currentPath, true);
       html += `  </li>\n`;
     } else {
@@ -124,12 +145,12 @@ function renderNav(navItems, currentPath = '', isNested = false) {
 }
 
 // Process a single markdown file
-function processMarkdown(srcFile, relDir) {
+function processMarkdown(srcFile: string, relDir: string): string {
   const content = fs.readFileSync(srcFile, 'utf-8');
   const { metadata, content: mdContent } = parseFrontMatter(content);
 
   // Parse markdown to HTML
-  const htmlContent = marked(mdContent);
+  const htmlContent = marked(mdContent) as string;
 
   // Load and render template
   const template = loadTemplate();
@@ -137,7 +158,7 @@ function processMarkdown(srcFile, relDir) {
   const navHtml = renderNav(nav, `/${relDir}/${path.basename(srcFile, '.md')}.html`);
 
   let html = template
-    .replace(/{{title}}/g, metadata.title || 'Page')
+    .replace(/{{title}}/g, metadata.title ?? 'Page')
     .replace(/{{nav}}/g, navHtml)
     .replace(/{{content}}/g, htmlContent);
 
@@ -148,7 +169,7 @@ function processMarkdown(srcFile, relDir) {
 }
 
 // Process CSS: add vendor prefixes and minify
-async function processCSS(cssContent) {
+async function processCSS(cssContent: string): Promise<string> {
   try {
     const result = await postcss([autoprefixer]).process(cssContent, { from: undefined });
     const minified = csso.minify(result.css).css;
@@ -160,7 +181,7 @@ async function processCSS(cssContent) {
 }
 
 // Minify HTML output
-function minifyHTMLOutput(html) {
+function minifyHTMLOutput(html: string): string {
   try {
     const minified = minifyHTML(html, {
       removeComments: true,
@@ -169,26 +190,25 @@ function minifyHTMLOutput(html) {
       removeScriptTypeAttributes: true,
       removeStyleLinkTypeAttributes: true,
       minifyCSS: true,
-      minifyJS: true,
+      minifyJS: false,
       conservativeCollapse: true,
-      ignoreCustomComments: [/data-/],
     });
-    
+
     // Validate that essential structure is preserved
     if (!minified.includes('<nav') || !minified.includes('</nav>')) {
       console.warn('⚠️  Warning: Navigation tags may have been corrupted during minification');
     }
-    
+
     return minified;
   } catch (error) {
-    console.error('HTML minification error:', error.message);
+    console.error('HTML minification error:', (error as Error).message);
     console.warn('⚠️  Returning unminified HTML due to minification error');
     return html;
   }
 }
 
 // Recursively process all markdown files
-function processDirectory(dir, baseDir = '') {
+function processDirectory(dir: string, baseDir = ''): void {
   ensureDir(DIST_DIR);
 
   const items = fs.readdirSync(dir);
@@ -201,8 +221,8 @@ function processDirectory(dir, baseDir = '') {
     const relDir = baseDir ? `${baseDir}/${item}` : item;
 
     if (stat.isDirectory()) {
-      const distDir = path.join(DIST_DIR, relDir);
-      ensureDir(distDir);
+      const distDirPath = path.join(DIST_DIR, relDir);
+      ensureDir(distDirPath);
       processDirectory(srcPath, relDir);
     } else if (item.endsWith('.md') && !item.startsWith('_')) {
       const htmlContent = processMarkdown(srcPath, baseDir);
@@ -212,7 +232,7 @@ function processDirectory(dir, baseDir = '') {
 
       ensureDir(path.dirname(distPath));
       fs.writeFileSync(distPath, minifiedHTML, 'utf-8');
-      
+
       // Verify minification preserved structure
       if (minifiedHTML.length === 0) {
         console.error(`✗ ERROR: Minification resulted in empty output for ${path.join(baseDir, htmlFileName)}`);
@@ -225,7 +245,7 @@ function processDirectory(dir, baseDir = '') {
 }
 
 // Copy CSS files from layouts to dist
-async function copyCSSFiles() {
+async function copyCSSFiles(): Promise<void> {
   const items = fs.readdirSync(LAYOUTS_DIR);
 
   for (const item of items) {
@@ -241,12 +261,12 @@ async function copyCSSFiles() {
 }
 
 // Copy public assets (images, etc.)
-function copyPublicAssets() {
+function copyPublicAssets(): void {
   if (!fs.existsSync(PUBLIC_DIR)) {
     return;
   }
 
-  function copyRecursive(src, dest) {
+  function copyRecursive(src: string, dest: string): void {
     ensureDir(dest);
     const items = fs.readdirSync(src);
 
@@ -267,14 +287,103 @@ function copyPublicAssets() {
   copyRecursive(PUBLIC_DIR, DIST_DIR);
 }
 
+// Compute an 8-character content hash for a file
+function contentHash(filePath: string): string {
+  const buf = fs.readFileSync(filePath);
+  return crypto.createHash('sha256').update(buf).digest('hex').slice(0, 8);
+}
+
+// Extensions that get fingerprinted
+const FINGERPRINT_EXTS = new Set(['.css', '.js', '.jpeg', '.jpg', '.png', '.gif', '.svg', '.webp', '.woff', '.woff2', '.ttf']);
+
+// Walk dist/ and rename every fingerprintable asset, returning an old→new URL map
+function fingerprintAssets(): Map<string, string> {
+  const map = new Map<string, string>();
+
+  function walk(dir: string): void {
+    for (const item of fs.readdirSync(dir)) {
+      const full = path.join(dir, item);
+      if (fs.statSync(full).isDirectory()) {
+        walk(full);
+        continue;
+      }
+      const ext = path.extname(item).toLowerCase();
+      if (!FINGERPRINT_EXTS.has(ext)) continue;
+
+      const hash = contentHash(full);
+      const base = path.basename(item, ext);
+      const hashedName = `${base}.${hash}${ext}`;
+      const hashedFull = path.join(dir, hashedName);
+
+      fs.renameSync(full, hashedFull);
+
+      // Build public URL mappings (relative to dist root, with leading slash)
+      const relOld = '/' + path.relative(DIST_DIR, full).replace(/\\/g, '/');
+      const relNew = '/' + path.relative(DIST_DIR, hashedFull).replace(/\\/g, '/');
+      map.set(relOld, relNew);
+    }
+  }
+
+  walk(DIST_DIR);
+  return map;
+}
+
+// Rewrite all asset references in HTML and CSS files using the fingerprint map
+function rewriteReferences(map: Map<string, string>): void {
+  // Sort longest key first so more-specific paths replace before shorter ones
+  const sorted = [...map.entries()].sort((a, b) => b[0].length - a[0].length);
+
+  function rewriteFile(filePath: string): void {
+    let src = fs.readFileSync(filePath, 'utf-8');
+    for (const [oldUrl, newUrl] of sorted) {
+      // Match the URL literally (quoted attrs, url() values, srcset, etc.)
+      src = src.replaceAll(oldUrl, newUrl);
+    }
+    fs.writeFileSync(filePath, src, 'utf-8');
+  }
+
+  function walk(dir: string): void {
+    for (const item of fs.readdirSync(dir)) {
+      const full = path.join(dir, item);
+      if (fs.statSync(full).isDirectory()) { walk(full); continue; }
+      const ext = path.extname(item).toLowerCase();
+      if (ext === '.html' || ext === '.css') rewriteFile(full);
+    }
+  }
+
+  walk(DIST_DIR);
+  console.log(`✓ Fingerprinted ${map.size} asset(s)`);
+}
+
+// Compile client-side TypeScript (nav.ts → public/nav.js)
+function compileClientScripts(): void {
+  try {
+    execSync('npx tsc --project config/tsconfig.client.json', {
+      cwd: __dirname,
+      stdio: 'inherit',
+    });
+    console.log('✓ Compiled: nav.ts → public/nav.js');
+  } catch (error) {
+    console.error('✗ Client TypeScript compilation failed:', (error as Error).message);
+  }
+}
+
 // Main build function
-async function build() {
+async function build(): Promise<void> {
   console.log('🔨 Building site...\n');
 
+  // Clean dist before each build to avoid stale fingerprinted files
+  if (fs.existsSync(DIST_DIR)) {
+    fs.rmSync(DIST_DIR, { recursive: true, force: true });
+  }
   ensureDir(DIST_DIR);
+  compileClientScripts();
   processDirectory(SRC_DIR);
   await copyCSSFiles();
   copyPublicAssets();
+
+  const fingerprintMap = fingerprintAssets();
+  rewriteReferences(fingerprintMap);
 
   console.log('\n✨ Build complete!');
 }
@@ -283,7 +392,7 @@ async function build() {
 let isBuilding = false;
 let buildQueued = false;
 
-async function queuedBuild() {
+async function queuedBuild(): Promise<void> {
   if (isBuilding) {
     buildQueued = true;
     return;
@@ -293,7 +402,7 @@ async function queuedBuild() {
   try {
     await build();
   } catch (error) {
-    console.error('Build failed:', error.message);
+    console.error('Build failed:', (error as Error).message);
   } finally {
     isBuilding = false;
     if (buildQueued) {
@@ -305,20 +414,20 @@ async function queuedBuild() {
 }
 
 // Watch mode
-function watch() {
+function watch(): void {
   console.log('👀 Watching for changes...\n');
-  queuedBuild();
+  void queuedBuild();
 
-  fs.watch(SRC_DIR, { recursive: true }, (eventType, filename) => {
+  fs.watch(SRC_DIR, { recursive: true }, (_eventType, filename) => {
     if (filename && filename.endsWith('.md')) {
       console.log(`\n📝 Changed: ${filename}`);
-      queuedBuild();
+      void queuedBuild();
     }
   });
 
   fs.watch(LAYOUTS_DIR, { recursive: true }, () => {
     console.log('\n🎨 Layout changed');
-    queuedBuild();
+    void queuedBuild();
   });
 }
 
@@ -327,8 +436,8 @@ const args = process.argv.slice(2);
 if (args.includes('--watch') || args.includes('-w')) {
   watch();
 } else {
-  build().catch(error => {
-    console.error('Build failed:', error.message);
+  build().catch((error: unknown) => {
+    console.error('Build failed:', (error as Error).message);
     process.exit(1);
   });
 }

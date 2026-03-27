@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "ES2015",
+    "lib": ["ES2015", "DOM"],
+    "strict": true,
+    "outDir": "../public",
+    "rootDir": "../layouts",
+    "noEmit": false,
+    "types": [],
+    "skipLibCheck": true
+  },
+  "include": ["../layouts/nav.ts"]
+}
