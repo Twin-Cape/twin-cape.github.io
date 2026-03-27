@@ -11,7 +11,14 @@
 </head>
 <body>
     <header>
-        <img src="/images/logo/logo_text.png" alt="Twin Cape Asset Management - Investment Management" class="logo" title="Twin Cape Asset Management">
+        <a href="/index.html" aria-label="Twin Cape home">
+            <img src="/images/logo/logo_text.png" alt="Twin Cape Asset Management - Investment Management" class="logo" title="Twin Cape Asset Management">
+        </a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open navigation">
+            <span class="nav-toggle-bar" aria-hidden="true"></span>
+            <span class="nav-toggle-bar" aria-hidden="true"></span>
+            <span class="nav-toggle-bar" aria-hidden="true"></span>
+        </button>
     </header>
 
     <div class="container">
@@ -25,5 +32,7 @@
     <footer>
         <p>&copy; 2026 Twin Cape Asset Management, Inc. All rights reserved.</p>
     </footer>
+
+    <script src="/nav.js" defer></script>
 </body>
 </html>
