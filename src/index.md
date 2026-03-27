@@ -5,24 +5,24 @@ nav_order: 1
 
 # Welcome to Twin Cape
 
-Redefining Canadian asset stewardship.
+Redefining Canadian asset management.
 
 ## What We Offer
 
-- **Portfolio Management** - Professional management of diversified investment portfolios
-- **Financial Planning** - Strategic planning for long-term wealth accumulation
-- **Market Analysis** - In-depth research and market insights
-- **Risk Management** - Comprehensive risk assessment and mitigation strategies
+- **Institution-Grade Investment Service** - Our seasoned investment team brings a world-class, institutional investment approach to your portfolio.
+- **Global, Cross-Asset Perspective** - We back our investments with the global expertise of our top-tier team, compounded across every investable asset class.
+- **Deep Market Insight** - We leverage meticulously risk-management processes powered by in-house macro, quantitative, fundamental, and thematic research.
+- **A Stellar Track Record** - We believe our returns speak for themselves.
 
 ## Our Approach
 
-Our team of experienced professionals is dedicated to maximizing returns while minimizing risk. We believe in:
+We believe in delivering a truly differentiated investment experience. Our approach involves:
 
-1. Transparency in all client relationships
-2. Continuous market research and analysis
-3. Personalized investment strategies
-4. Long-term value creation
+1. Understanding the needs of our clients;
+2. Taking a long term view;
+3. Deep, rigorous, proprietary analysis; and,
+4. Producing delightful investment outcomes.
 
 ---
 
-*For more information, please explore our site or contact us directly.*
+*For more information, explore our investment offerings or contact us directly.*

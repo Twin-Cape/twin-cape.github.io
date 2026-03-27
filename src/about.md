@@ -1,9 +1,9 @@
 ---
-title: About Us
+title: Who We Are
 nav_order: 3
 ---
 
-# About Our Firm
+# Who We Are
 
 Founded in 2010, we have grown to become one of the region's leading independent investment management firms.
 
