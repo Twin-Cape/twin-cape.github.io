@@ -310,6 +310,9 @@ function fingerprintAssets(): Map<string, string> {
       const ext = path.extname(item).toLowerCase();
       if (!FINGERPRINT_EXTS.has(ext)) continue;
 
+      // Skip files already fingerprinted (e.g. from a prior incomplete build)
+      if (/\.[0-9a-f]{8}$/.test(path.basename(item, ext))) continue;
+
       const hash = contentHash(full);
       const base = path.basename(item, ext);
       const hashedName = `${base}.${hash}${ext}`;
@@ -358,7 +361,7 @@ function rewriteReferences(map: Map<string, string>): void {
 // Compile client-side TypeScript (nav.ts → public/nav.js)
 function compileClientScripts(): void {
   try {
-    execSync('npx tsc --project config/tsconfig.client.json', {
+    execSync('tsc --project config/tsconfig.client.json', {
       cwd: __dirname,
       stdio: 'inherit',
     });
@@ -368,15 +371,28 @@ function compileClientScripts(): void {
   }
 }
 
+// Clear dist contents without removing the dist root directory.
+// On macOS, removing the root itself can intermittently throw ENOTEMPTY in watch mode.
+function cleanDistDirectory(): void {
+  ensureDir(DIST_DIR);
+  const entries = fs.readdirSync(DIST_DIR);
+  for (const entry of entries) {
+    const fullPath = path.join(DIST_DIR, entry);
+    fs.rmSync(fullPath, {
+      recursive: true,
+      force: true,
+      maxRetries: 5,
+      retryDelay: 50,
+    });
+  }
+}
+
 // Main build function
 async function build(): Promise<void> {
   console.log('🔨 Building site...\n');
 
   // Clean dist before each build to avoid stale fingerprinted files
-  if (fs.existsSync(DIST_DIR)) {
-    fs.rmSync(DIST_DIR, { recursive: true, force: true });
-  }
-  ensureDir(DIST_DIR);
+  cleanDistDirectory();
   compileClientScripts();
   processDirectory(SRC_DIR);
   await copyCSSFiles();
