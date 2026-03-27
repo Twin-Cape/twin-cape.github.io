@@ -4,10 +4,10 @@
   "description": "Lightweight static site generator for markdown files",
   "main": "build.ts",
   "scripts": {
-    "build": "npx ts-node build.ts",
-    "watch": "npx ts-node build.ts --watch",
-    "dev": "npx ts-node dev.ts",
-    "lint": "npx eslint --config config/.eslintrc.json *.ts layouts/nav.ts",
+    "build": "ts-node build.ts",
+    "watch": "ts-node build.ts --watch",
+    "dev": "ts-node dev.ts",
+    "lint": "eslint --config config/.eslintrc.json *.ts layouts/nav.ts",
     "publish": "./publish.sh"
   },
   "keywords": [

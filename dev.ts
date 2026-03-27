@@ -5,12 +5,12 @@ import { spawn } from 'child_process';
 console.log('🚀 Starting development server...\n');
 
 // Start the build watcher
-const buildProcess = spawn('npx', ['ts-node', 'build.ts', '--watch'], {
+const buildProcess = spawn('ts-node', ['build.ts', '--watch'], {
   stdio: 'inherit',
 });
 
 // Start the HTTP server
-const serverProcess = spawn('npx', ['ts-node', 'server.ts'], {
+const serverProcess = spawn('ts-node', ['server.ts'], {
   stdio: 'inherit',
 });
 
