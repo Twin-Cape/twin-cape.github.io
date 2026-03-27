@@ -202,7 +202,7 @@ main > h1:first-of-type + p {
     font-size: 1.3rem;
     margin: -2rem -2rem 2rem -2rem;
     padding: 1.5rem 2rem 2rem 2rem;
-    background: rgba(26, 31, 46, 0.75);
+    background: var(--color-primary-light);
     color: var(--color-text-light);
     font-weight: 300;
     letter-spacing: 0.5px;
