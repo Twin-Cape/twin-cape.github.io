@@ -56,8 +56,10 @@ body {
 header {
     background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 100%);
     color: var(--color-text-light);
-    padding: 2rem 0;
+    padding: 2rem;
     box-shadow: 0 2px 4px var(--color-shadow-sm);
+    max-width: 100%;
+    margin: 0 auto;
 }
 
 header h1 {
@@ -202,7 +204,7 @@ main > h1:first-of-type + p {
     font-size: 1.3rem;
     margin: -2rem -2rem 2rem -2rem;
     padding: 1.5rem 2rem 2rem 2rem;
-    background: var(--color-primary-light);
+    background: rgba(26, 31, 46, 0.75);
     color: var(--color-text-light);
     font-weight: 300;
     letter-spacing: 0.5px;
@@ -277,6 +279,7 @@ header img.logo {
     height: 50px;
     width: auto;
     display: block;
+    max-width: 100%;
 }
 
 /* Footer */
