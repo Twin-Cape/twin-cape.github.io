@@ -107,9 +107,10 @@ function buildNavigation(srcPath: string = SRC_DIR, navPath = ''): NavItem[] {
       const mdContent = fs.readFileSync(fullPath, 'utf-8');
       const { metadata } = parseFrontMatter(mdContent);
 
+      const navPath = relPath === 'index.md' ? '/' : `/${relPath.replace('.md', '.html')}`;
       nav.push({
         title: metadata.title ?? item.replace('.md', '').replace(/-/g, ' '),
-        path: `/${relPath.replace('.md', '.html')}`,
+        path: navPath,
         order: parseInt(metadata.nav_order ?? '999', 10),
       });
     }
@@ -155,7 +156,13 @@ function processMarkdown(srcFile: string, relDir: string): string {
   // Load and render template
   const template = loadTemplate();
   const nav = buildNavigation(SRC_DIR);
-  const navHtml = renderNav(nav, `/${relDir}/${path.basename(srcFile, '.md')}.html`);
+  const baseName = path.basename(srcFile, '.md');
+  const currentPath = (relDir === '' && baseName === 'index')
+    ? '/'
+    : relDir === ''
+      ? `/${baseName}.html`
+      : `/${relDir}/${baseName}.html`;
+  const navHtml = renderNav(nav, currentPath);
 
   let html = template
     .replace(/{{title}}/g, metadata.title ?? 'Page')
