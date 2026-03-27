@@ -168,12 +168,13 @@ nav .arrow {
 }
 
 main {
-    background: var(--color-bg-primary);
+    background: var(--color-primary);
     padding: 2rem;
     border-radius: 0;
     box-shadow: none;
     max-width: 1200px;
     margin: 0 auto;
+    color: var(--color-text-light);
 }
 
 /* Content styling */
@@ -212,7 +213,7 @@ main h2 {
     font-size: 1.5rem;
     margin-top: 2rem;
     margin-bottom: 1rem;
-    color: var(--color-primary);
+    color: var(--color-accent-light);
 }
 
 main h3 {
@@ -268,8 +269,15 @@ main blockquote {
     border-left: 4px solid var(--color-accent);
     padding-left: 1rem;
     margin: 1rem 0;
-    color: var(--color-text-secondary);
+    color: var(--color-text-light);
     font-style: italic;
+}
+
+/* Logo styling */
+header img.logo {
+    height: 50px;
+    width: auto;
+    display: block;
 }
 
 /* Footer */
