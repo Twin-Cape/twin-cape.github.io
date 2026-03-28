@@ -166,6 +166,7 @@ function processMarkdown(srcFile: string, relDir: string): string {
 
   let html = template
     .replace(/{{title}}/g, metadata.title ?? 'Page')
+    .replace(/{{year}}/g, String(new Date().getFullYear()))
     .replace(/{{nav}}/g, navHtml)
     .replace(/{{content}}/g, htmlContent);
 
