@@ -1,9 +1,9 @@
 ---
-title: Contact
+title: Get In Touch
 nav_order: 5
 ---
 
-# Get in Touch
+# Get In Touch
 
 We'd love to hear from you. Contact our team to discuss your investment needs.
 
