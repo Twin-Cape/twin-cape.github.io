@@ -1,6 +1,6 @@
 ---
 title: Get In Touch
-nav_order: 5
+nav_order: 4
 ---
 
 # Get In Touch
@@ -9,26 +9,12 @@ We'd love to hear from you. Contact our team to discuss your investment needs.
 
 ## Office Locations
 
-### New York Office
-123 Wall Street, Suite 500
-New York, NY 10005
-Phone: (212) 555-0100
-Email: ny@investmentfirm.com
+We are headquartered in the cultural mosaic of Toronto, Canada.
 
-### Los Angeles Office
-456 Wilshire Boulevard, Suite 300
-Los Angeles, CA 90010
-Phone: (310) 555-0200
-Email: la@investmentfirm.com
+As a major North American financial hub, Toronto affords us unique access to global markets, supported by one of the most robust and tested regulatory regimes in the world.
 
-## Business Hours
+## Schedule A Consultation
 
-Monday - Friday: 8:30 AM - 5:00 PM EST
+Our team is available for consultations via phone or in-person meeting.
 
-## Schedule a Consultation
-
-Our team is available for phone or in-person consultations. Please contact us with your preferred time and location.
-
----
-
-*All investment accounts carry risk. Past performance is not indicative of future results.*
+Please contact us to schedule your appointment.

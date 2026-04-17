@@ -9,9 +9,9 @@ Redefining Canadian asset management.
 
 ## What We Offer
 
-- **Institution-Grade Investment Service** - Our seasoned investment team brings a world-class, institutional investment approach to your portfolio.
+- **Uniquely Deep Research and Insight** - Our seasoned investment team brings a world-class, institutional approach to your portfolio.
 - **Global, Multi-Asset Perspective** - We back our investments with the global expertise of our top-tier team, compounded across every investable asset class.
-- **Deep Market Insight** - We leverage meticulous risk-management processes powered by in-house macro, quantitative, fundamental, and thematic research.
+- **Access to Proprietary Investment Methods** - We leverage our knowledge and experience gained at leading institutions to design proprietary risk-management processes.
 - **A Stellar Track Record** - We believe our investment track record offers a unique allocation opportunity for investors of all kinds.
 
 ## Our Approach

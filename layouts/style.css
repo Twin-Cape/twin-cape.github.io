@@ -330,6 +330,33 @@ main h3 {
     border-left: 2px solid rgba(30, 64, 175, 0.3);
 }
 
+main h4 {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.98rem;
+    margin-top: 1.15rem;
+    margin-bottom: 0.55rem;
+    font-family: var(--font-serif);
+    color: var(--color-accent-dark);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+main h4::after {
+    content: '';
+    flex: 1 1 auto;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(30, 58, 138, 0.35) 0%, rgba(30, 58, 138, 0) 100%);
+}
+
+main h4 + p,
+main h4 + ul,
+main h4 + ol {
+    margin-top: 0.2rem;
+}
+
 main p {
     margin-bottom: 1rem;
     max-width: 78ch;
@@ -338,39 +365,122 @@ main p {
 
 main ul,
 main ol {
-    margin-left: 2.5rem;
-    margin-bottom: 1rem;
+    margin: 1.15rem 0 1.35rem 0;
+    padding-left: 0;
+    max-width: 78ch;
 }
 
 main ul {
-    list-style-type: square;
-}
-
-main ul ul {
     list-style: none;
-    margin-top: 0.45rem;
-    margin-left: 1.35rem;
 }
 
-main ul ul > li {
+main ol {
+    list-style: none;
+    counter-reset: refined-list;
+}
+
+main ul > li,
+main ol > li {
     position: relative;
+    margin-bottom: 0.7rem;
 }
 
-main ul ul > li::before {
-    content: '-';
+main ul > li {
+    padding: 0 0 0.55rem 1.1rem;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.22);
+}
+
+main ul > li::before {
+    content: '';
     position: absolute;
-    left: -1.05rem;
+    left: 0;
+    top: 0.72rem;
+    width: 0.34rem;
+    height: 0.34rem;
+    border-top: 1.5px solid var(--color-accent-dark);
+    border-right: 1.5px solid var(--color-accent-dark);
+    transform: rotate(45deg);
+}
+
+main ol > li {
+    counter-increment: refined-list;
+    padding-left: 1.9rem;
+}
+
+main ol > li::before {
+    content: counter(refined-list, decimal-leading-zero) '.';
+    position: absolute;
+    left: 0;
+    top: 0.02rem;
+    color: var(--color-accent-dark);
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    font-variant-numeric: tabular-nums;
+}
+
+main ul ul,
+main ul ol,
+main ol ul,
+main ol ol {
+    margin: 0.45rem 0 0.2rem 0;
+    max-width: none;
+    padding-left: 0.9rem;
+}
+
+main ol ol {
+    counter-reset: refined-sublist;
+}
+
+main ul ul > li,
+main ul ol > li,
+main ol ul > li,
+main ol ol > li {
+    margin-bottom: 0.3rem;
+    border-bottom: 0;
+    padding-bottom: 0;
+}
+
+main ul ul > li,
+main ol ul > li {
+    padding-left: 1rem;
+}
+
+main ul ul > li::before,
+main ol ul > li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    top: 0.06rem;
     color: var(--color-accent-dark);
     font-weight: 600;
 }
 
-main li {
-    margin-bottom: 0.5rem;
+main ol ol > li {
+    counter-increment: refined-sublist;
+    padding-left: 1.4rem;
 }
 
-main ul li::marker,
-main ol li::marker {
+main ol ol > li::before {
+    content: counter(refined-sublist) '.';
+    position: absolute;
+    left: 0;
+    top: 0.04rem;
     color: var(--color-accent-dark);
+    font-size: 0.88rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}
+
+main ul > li:last-child,
+main ol > li:last-child {
+    margin-bottom: 0;
+    border-bottom: 0;
+    padding-bottom: 0;
+}
+
+main li:last-child {
+    margin-bottom: 0;
 }
 
 main img {

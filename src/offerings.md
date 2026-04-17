@@ -1,24 +1,35 @@
 ---
-title: What We Offer
+title: Our Products
 nav_order: 3
 ---
 
-# What We Offer
+# Our Products
 
 Institution-grade investment service, at affordable cost.
 
-## Our Strategies
+## How To Invest With Us
 
-We have thoughtfully designed our investment strategies to offer our unique investment approach, in a familiar format that fits in a variety of client portfolios.
+We offer our *Flagship Multi-Asset Strategy* to a selective group of investors through two vehicles.
 
 ### Flagship Multi-Asset Strategy
 
 Our Flagship strategy represents the culmination of years of investment research, market implementation, and practitioner experience. The strategy takes an all-asset-class, all-geography, all-sector approach to earning a satisfactory return for clients, within strictly enforced risk limits.
 
-The Flagship strategy regularly takes concentrated positions in single securities, while maintaining a liberal cash balance. The strategy takes a long-term view toward earning total returns and has generated solid double-digit percentage returns annually, since inception.
+The Flagship strategy regularly takes concentrated positions in single securities, while maintaining a liberal cash balance. The strategy takes a long-term view toward earning total returns and has generated solid mid-double-digit percentage returns annually, since inception.
 
-We find that the majority of our clients seek an allocation to our Flagship strategy, though we maintain a highly-selective client acceptance process.
 
-### Evergreen Income Strategy
+### Investment Vehicles
 
-While we encourage all clients to consider an allocation to our Flagship strategy, some clients seeking income in the near-to-medium term may prefer our Evergreen Income strategy. The Evergreen strategy employs a hybrid liability-matching approach to prioritize near-term income, balanced against the potential for long-term capital appreciation.
+#### The Twin Cape Partnership
+
+The Twin Cape Partnership is the primary way we offer our services to clients. Partners of Twin Cape contribute capital into a pooled fund and receive numerous benefits in return:
+
+1. Access to world-class asset management services;
+2. Exposure to our Flagship strategy;
+3. Membership in a selective group of like-minded investors;
+4. Regularly scheduled events and membership perks, including our in-house research letters; and
+5. Many more valuable and interesting advantages.
+
+#### Separately Managed Accounts (SMAs)
+
+To our most steadfast and loyal partners, we extend our completely customized asset management services for high-touch, hands-on, bespoke portfolio management.
