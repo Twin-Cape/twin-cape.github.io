@@ -1,0 +1,5 @@
+node_modules/
+layouts/
+src/
+*.bak
+.DS_Store
