@@ -151,7 +151,13 @@ function processMarkdown(srcFile: string, relDir: string): string {
   const { metadata, content: mdContent } = parseFrontMatter(content);
 
   // Parse markdown to HTML
-  const htmlContent = marked(mdContent) as string;
+  let htmlContent = marked(mdContent) as string;
+
+  // Strip the " - " separator that lives between the bold lead-in and the
+  // description in list items (e.g. `<strong>X</strong> - Y...`). With the
+  // CSS treatment the lead-in now displays as the item's title on its own
+  // line, so the dash reads as orphaned punctuation rather than a separator.
+  htmlContent = htmlContent.replace(/<\/strong>\s+[-–—]\s+/g, '</strong> ');
 
   // Load and render template
   const template = loadTemplate();

@@ -17,4 +17,4 @@ As a major North American financial hub, Toronto affords us unique access to glo
 
 Our team is available for consultations via phone or in-person meeting.
 
-Please contact us to schedule your appointment.
+To schedule your appointment, [send us an email](mailto:ir@twincape.com)

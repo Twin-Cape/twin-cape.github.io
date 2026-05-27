@@ -1,52 +1,89 @@
+/* ============================================================
+   TWIN CAPE — editorial premium
+   ============================================================ */
+
 :root {
-    --font-ui: 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Palatino,
-        'URW Palladio L', 'Baskerville', 'Baskerville Old Face', 'Times New Roman', Times, serif;
+    /* === TYPE PAIRING ===
+       Iowan Old Style is THE reading face — body paragraphs, lists,
+       lead paragraph, headings, CTA link, blockquotes. Anything the
+       reader is meant to read with their eye living on the page.
+       Inter is THE framing face — used only for short, structural
+       elements: navigation, footer micro-line, H4 eyebrows, the small
+       uppercase CTA caption, and — deliberately — **bold emphasis
+       inside serif body**, where the typeface contrast lifts the
+       bold word off the page (a classic editorial move).
+       =================================================================== */
     --font-display: 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Palatino,
         'URW Palladio L', 'Baskerville', 'Baskerville Old Face', 'Times New Roman', Times, serif;
-    --font-serif: 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Palatino,
-        'URW Palladio L', 'Baskerville', 'Baskerville Old Face', 'Times New Roman', Times, serif;
-    --font-mono: 'Courier New', Courier, monospace;
+    --font-serif: var(--font-display);
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI',
+        Helvetica, Arial, sans-serif;
+    --font-mono: 'SF Mono', Menlo, Monaco, 'Courier New', Courier, monospace;
+    --font-ui: var(--font-sans);
 
-    /* === NEAR-BLACK THEME - PRIMARY BRAND === */
-    --color-primary-dark: #0f1419;
-    --color-primary: #1a1f2e;
-    --color-primary-light: #2d3748;
+    /* ============================================================
+       LIGHT MODE (default) — warm paper canvas, navy/gilt accent.
+       Dark mode lives in @media (prefers-color-scheme: dark) below
+       and just overrides this palette + a few specific properties.
+       ============================================================ */
 
-    /* === ACCENT COLORS (Blue spectrum for secondary use) === */
-    --color-accent-dark: #1e3a8a;
-    --color-accent: #1e40af;
-    --color-accent-light: #2563eb;
+    /* ---- Type colors (read on light canvas) ---- */
+    --ink: #0a1a33;                              /* headlines / strongest type */
+    --text: #14213d;                             /* body */
+    --text-secondary: #4a5468;                   /* H3, subdued */
+    --text-muted: #8993a8;                       /* CTA caption etc. */
 
-    /* === CALL-TO-ACTION (Vibrant Sky Blue - distinct from Apple & accent) === */
-    --color-cta: #0ea5e9;
-    --color-cta-hover: #0284c7;
+    /* ---- On-dark band type (header/footer/subtitle band) ---- */
+    --text-on-dark: #f5f3ee;
+    --text-on-dark-dim: rgba(245, 243, 238, 0.7);
 
-    /* === NEUTRALS & SURFACES === */
-    --color-bg-primary: #ffffff;
-    --color-bg-secondary: #f9f9f9;
-    --color-bg-tertiary: #f5f5f5;
-    --color-bg-panel: #ffffffcc;
-    --color-bg-deep: #0c1625;
+    /* ---- Surfaces ---- */
+    --paper: #fbfaf6;                            /* page canvas — warm off-white */
+    --paper-warm: #f5f1e9;                       /* slightly warmer */
+    --ink-deep: #06122a;                         /* deepest — header/footer/subtitle */
+    --navy: #0e2244;
+    --navy-soft: #1b3360;
 
-    /* === TEXT COLORS === */
-    --color-text-primary: #1f2937;
-    --color-text-secondary: #4b5563;
-    --color-text-muted: #9ca3af;
-    --color-text-light: #f5f8fa;
+    /* ---- Accents ---- */
+    --steel: #2a4d7d;
+    --steel-light: #6985aa;
+    --gilt: #b89a5a;
+    --gilt-soft: rgba(184, 154, 90, 0.55);
 
-    /* === INTERACTIVE ELEMENTS === */
-    --color-border: #e5e7eb;
-    --color-hover: #f0f0f0;
+    /* ---- Rules / borders ---- */
+    --rule: #e2dfd8;
+    --rule-soft: rgba(10, 26, 51, 0.07);
 
-    /* === VISUAL EFFECTS === */
-    --color-shadow: rgba(0, 0, 0, 0.1);
-    --color-shadow-sm: rgba(0, 0, 0, 0.05);
+    /* ---- legacy aliases (kept so any leftover refs still resolve) ---- */
+    --color-primary-dark: var(--ink-deep);
+    --color-primary: var(--ink);
+    --color-primary-light: var(--navy-soft);
+    --color-accent-dark: var(--gilt);
+    --color-accent: var(--steel);
+    --color-accent-light: var(--steel-light);
+    --color-cta: var(--gilt);
+    --color-cta-hover: var(--steel);
+    --color-bg-primary: var(--paper);
+    --color-bg-secondary: var(--paper-warm);
+    --color-bg-tertiary: var(--paper-warm);
+    --color-bg-panel: var(--paper);
+    --color-bg-deep: var(--ink-deep);
+    --color-text-primary: var(--text);
+    --color-text-secondary: var(--text-secondary);
+    --color-text-muted: var(--text-muted);
+    --color-text-light: var(--text-on-dark);
+    --color-border: var(--rule);
+    --color-hover: var(--paper-warm);
+    --color-shadow: rgba(10, 26, 51, 0.08);
+    --color-shadow-sm: rgba(10, 26, 51, 0.04);
+    --color-success: #2f7a5b;
+    --color-warning: #c08a3e;
+    --color-error: #a83d50;
+    --color-info: var(--steel);
 
-    /* === SEMANTIC COLORS (for future use) === */
-    --color-success: #10b981;
-    --color-warning: #f59e0b;
-    --color-error: #ef4444;
-    --color-info: #3b82f6;
+    /* ---- scale ---- */
+    --gutter: clamp(1.4rem, 4.5vw, 3.5rem);
+    --measure: 76ch;
 }
 
 * {
@@ -55,67 +92,126 @@
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+}
+
 body {
     font-family: var(--font-serif);
-    line-height: 1.68;
-    color: var(--color-text-primary);
-    background:
-        radial-gradient(circle at 14% 12%, #eef3fa 0%, #f7f9fc 30%, transparent 62%),
-        radial-gradient(circle at 86% 6%, #e8eef9 0%, #f7f9fc 34%, transparent 68%),
-        linear-gradient(180deg, #f7f9fc 0%, #f4f6fa 100%);
+    font-size: 17.5px;
+    line-height: 1.66;
+    color: var(--text);
+    font-feature-settings: 'kern' 1, 'liga' 1, 'onum' 1, 'calt' 1;
+    /* LIGHT MODE atmospherics:
+       (1) faint warm gilt glow from the upper-right,
+       (2) faint cool steel counter-glow from the lower-left,
+       (3) fine dark-tinted grain so the surface reads as paper. */
+    background-color: var(--paper);
+    background-image:
+        radial-gradient(
+            ellipse 80% 50% at 85% 0%,
+            rgba(184, 154, 90, 0.045) 0%,
+            transparent 55%
+        ),
+        radial-gradient(
+            ellipse 90% 60% at 10% 100%,
+            rgba(42, 77, 125, 0.04) 0%,
+            transparent 60%
+        ),
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.92' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.06  0 0 0 0 0.1  0 0 0 0 0.2  0 0 0 0.55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.45'/></svg>");
+    background-size: auto, auto, 260px 260px;
+    background-repeat: no-repeat, no-repeat, repeat;
+    background-attachment: fixed, fixed, scroll;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     min-height: 100vh;
     overflow-x: hidden;
+    position: relative;
 }
 
-/* Header */
+/* Scroll progress hairline — modern browsers; falls back to invisible */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--gilt);
+    transform-origin: left;
+    transform: scaleX(0);
+    z-index: 1000;
+    pointer-events: none;
+    animation: scrollProgress linear;
+    animation-timeline: scroll(root);
+}
+
+@keyframes scrollProgress {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+}
+
+/* ============================================================
+   HEADER (logo bar)
+   ============================================================ */
+
 header {
-    background: linear-gradient(120deg, #0e1624 0%, #182538 55%, #10253f 100%);
-    color: var(--color-text-light);
-    padding: 1.15rem 2rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0 14px 34px rgba(10, 18, 30, 0.28);
-    max-width: 100%;
-    margin: 0 auto;
+    background: var(--ink-deep);
+    color: var(--text-on-dark);
+    padding: 1.5rem var(--gutter);
+    border-bottom: 0;
+    box-shadow: none;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 1.2rem;
+    position: relative;
+}
+
+header img.logo {
+    height: 44px;
+    width: auto;
+    display: block;
+    filter: brightness(0) invert(1);
+    opacity: 0.95;
+    transition: opacity 0.3s ease;
+}
+
+header a:hover img.logo {
+    opacity: 1;
 }
 
 header h1 {
     font-size: 2rem;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 2rem;
 }
 
-/* Navigation */
+/* ============================================================
+   NAV (sticky, on the ink bar)
+   ============================================================ */
+
 nav {
-    background: rgba(255, 255, 255, 0.82);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(17, 24, 39, 0.08);
-    box-shadow: 0 10px 22px rgba(10, 18, 30, 0.06);
+    background: var(--ink-deep);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow: none;
     position: sticky;
     top: 0;
     z-index: 120;
 }
 
-.nav-toggle {
-    display: none;
-}
+.nav-toggle { display: none; }
 
 nav ul {
     list-style: none;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0.25rem 0.45rem;
+    max-width: 100%;
+    margin: 0;
+    padding: 0 var(--gutter);
     display: flex;
     flex-wrap: wrap;
-    gap: 0.3rem;
+    gap: 0;
 }
 
 nav > ul > li {
@@ -125,17 +221,22 @@ nav > ul > li {
 nav a,
 nav .submenu-toggle {
     display: block;
-    padding: 0.8rem 1.05rem;
-    font-family: var(--font-serif);
-    color: var(--color-text-primary);
+    padding: 1.15rem 1.5rem;
+    font-family: var(--font-sans);
+    color: rgba(245, 243, 238, 0.66);
     text-decoration: none;
-    letter-spacing: 0.03em;
-    text-transform: none;
-    font-size: 0.93rem;
-    font-weight: 600;
-    border-radius: 0;
-    transition: background-color 0.22s ease, color 0.22s ease, box-shadow 0.22s ease;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    font-weight: 500;
+    transition: color 0.3s ease;
     cursor: pointer;
+    position: relative;
+}
+
+nav > ul > li:first-child > a,
+nav > ul > li:first-child > .submenu-toggle {
+    padding-left: 0;
 }
 
 nav .submenu-toggle {
@@ -143,400 +244,727 @@ nav .submenu-toggle {
     border: 0;
     background: transparent;
     text-align: left;
-    font-size: 0.93rem;
-    line-height: 1.6;
-    font-weight: 700;
     appearance: none;
     -webkit-appearance: none;
-    border-radius: 0;
 }
 
 nav a:hover,
 nav .submenu-toggle:hover {
-    background-color: rgba(15, 20, 25, 0.045);
-    color: var(--color-accent-dark);
-    box-shadow: inset 0 -1px 0 rgba(30, 58, 138, 0.25);
+    color: var(--text-on-dark);
 }
 
 nav a.active {
-    color: var(--color-primary-dark);
-    background: transparent;
-    box-shadow: inset 0 -2px 0 var(--color-accent-dark), 0 1px 0 rgba(15, 20, 25, 0.05);
-    border-radius: 0;
-    font-weight: 700;
+    color: var(--text-on-dark);
+    font-weight: 600;
 }
 
-/* Dropdown submenu styles */
-nav .has-submenu {
-    position: relative;
+nav a.active::after {
+    content: '';
+    position: absolute;
+    left: 1.5rem;
+    right: 1.5rem;
+    bottom: 0.7rem;
+    height: 1px;
+    background: var(--gilt);
 }
+
+nav > ul > li:first-child > a.active::after {
+    left: 0;
+}
+
+nav .has-submenu { position: relative; }
 
 nav .has-submenu > ul {
     position: absolute;
     top: 100%;
     left: 0;
-    background-color: rgba(255, 255, 255, 0.97);
-    box-shadow: 0 16px 28px rgba(10, 18, 30, 0.16);
-    border: 1px solid rgba(17, 24, 39, 0.1);
-    border-radius: 12px;
-    min-width: 200px;
+    background-color: var(--ink-deep);
+    box-shadow: 0 24px 36px rgba(6, 18, 42, 0.4);
+    border: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 0;
+    min-width: 240px;
     display: none;
     flex-direction: column;
-    margin-top: 0;
-    padding: 0.5rem 0;
+    padding: 0.6rem 0;
     z-index: 200;
 }
 
 nav .has-submenu:hover > ul,
-nav .has-submenu:focus-within > ul {
-    display: flex;
-}
+nav .has-submenu:focus-within > ul { display: flex; }
 
-nav .has-submenu > ul > li {
-    position: static;
-}
+nav .has-submenu > ul > li { position: static; }
 
 nav .has-submenu > ul a {
-    padding: 0.75rem 1.5rem;
-    border-bottom: none;
+    padding: 0.85rem 1.6rem;
     white-space: nowrap;
 }
 
 nav .has-submenu > ul a:hover {
-    background-color: var(--color-hover);
+    background-color: rgba(255, 255, 255, 0.04);
+    color: var(--text-on-dark);
 }
 
 nav .has-submenu > ul a.active {
-    color: var(--color-accent);
-    background-color: var(--color-bg-secondary);
+    color: var(--gilt);
+    background: transparent;
 }
+
+nav .has-submenu > ul a.active::after { display: none; }
 
 nav .arrow {
-    font-size: 0.75rem;
-    margin-left: 0.3rem;
-    padding: 0;
-    display: inline;
+    font-size: 0.55rem;
+    margin-left: 0.45rem;
+    opacity: 0.55;
+    vertical-align: middle;
 }
 
-/* Layout */
+/* ============================================================
+   LAYOUT — editorial grid
+   ============================================================ */
+
 .container {
-    max-width: 100%;
-    margin: 0;
-    padding: 0;
+    background: transparent;
 }
 
 main {
-    background: var(--color-bg-panel);
-    border: 1px solid rgba(17, 24, 39, 0.08);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    padding: 2.35rem;
-    border-radius: 18px;
-    box-shadow: 0 18px 42px rgba(10, 18, 30, 0.08);
-    max-width: 1180px;
-    margin: 1.5rem auto 0 auto;
-    animation: revealUp 420ms ease-out both;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    padding: 0 0 6rem 0;
+    margin: 0;
+    border-radius: 0;
+    max-width: 100%;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
+    animation: fadeUp 700ms ease-out both;
+
+    display: grid;
+    grid-template-columns:
+        [full-start] minmax(var(--gutter), 1fr)
+        [content-start] minmax(0, var(--measure)) [content-end]
+        minmax(var(--gutter), 1fr) [full-end];
+    row-gap: 0;
+    column-gap: 0;
+    counter-reset: section;
 }
 
-main::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, rgba(30, 58, 138, 0) 0%, rgba(30, 58, 138, 0.45) 22%, rgba(14, 165, 233, 0.4) 50%, rgba(30, 58, 138, 0.45) 78%, rgba(30, 58, 138, 0) 100%);
+main > * {
+    grid-column: content;
+    padding-left: 0;
+    padding-right: 0;
 }
 
-/* Content styling */
-main h1 {
-    font-size: 2.1rem;
-    margin-bottom: 1rem;
+main::before { display: none; }
+
+/* ============================================================
+   HERO — magazine cover, headline anchored bottom-left
+   ============================================================ */
+
+main > h1:first-of-type {
+    grid-column: full;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-height: clamp(32rem, 80vh, 50rem);
+    padding: 3rem var(--gutter) clamp(4rem, 7vw, 6rem) var(--gutter);
+
+    background-image:
+        radial-gradient(
+            ellipse 120% 80% at 50% 30%,
+            rgba(6, 18, 42, 0) 40%,
+            rgba(6, 18, 42, 0.45) 100%
+        ),
+        linear-gradient(
+            180deg,
+            rgba(6, 18, 42, 0.18) 0%,
+            rgba(6, 18, 42, 0.32) 50%,
+            rgba(6, 18, 42, 0.78) 100%
+        ),
+        url('/images/hero/hero.jpeg');
+    background-repeat: no-repeat, no-repeat, no-repeat;
+    background-size: 100% 100%, 100% 100%, cover;
+    background-position: center center, center center, center 38%;
+
+    color: var(--text-on-dark);
     font-family: var(--font-display);
-    color: var(--color-primary-dark);
-    line-height: 1.22;
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    font-weight: 500;
+    line-height: 0.98;
+    letter-spacing: -0.032em;
+    text-wrap: balance;
+    position: relative;
+    animation: heroIn 800ms ease-out both;
+    margin: 0;
+}
+
+main > h1:first-of-type::before {
+    content: '';
+    display: block;
+    width: 72px;
+    height: 1px;
+    background: var(--gilt);
+    margin-bottom: 2.4rem;
+    opacity: 0.95;
+    transform-origin: left;
+    animation: gildDraw 1.8s cubic-bezier(0.2, 0.7, 0.2, 1) 300ms both;
+}
+
+@keyframes gildDraw {
+    from { transform: scaleX(0); opacity: 0; }
+    to { transform: scaleX(1); opacity: 0.95; }
+}
+
+/* ============================================================
+   HERO SUBTITLE — full-bleed navy band, italic display serif
+   ============================================================ */
+
+main > h1:first-of-type + p {
+    grid-column: full;
+    margin: 0;
+    padding: 2.4rem var(--gutter) 2.6rem var(--gutter);
+    background: var(--ink-deep);
+    color: rgba(245, 243, 238, 0.86);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(1.15rem, 1.65vw, 1.4rem);
+    line-height: 1.48;
+    letter-spacing: 0.005em;
+    border-top: 0;
+    border-radius: 0;
+    text-shadow: none;
+    max-width: none;
+}
+
+/* Italics inside the subtitle band must inherit the on-dark color
+   (otherwise they fall back to var(--text) and go muddy on the navy). */
+main > h1:first-of-type + p em,
+main > h1:first-of-type + p strong {
+    color: inherit;
+    font-style: italic;
+}
+
+/* The lead paragraph — the editorial opener after the dark hero band.
+   Sized very close to body (just a hair larger) so the page doesn't
+   jump from font-size to font-size as the reader moves into it. */
+main > h1:first-of-type + p + p {
+    margin-top: clamp(3.5rem, 6vw, 5rem);
+    font-family: var(--font-serif);
+    font-size: 1.08rem;
+    font-weight: 400;
+    line-height: 1.65;
+    color: var(--text);
+    max-width: 62ch;
+    letter-spacing: 0;
+}
+
+/* Drop cap on the lead paragraph. The trick: tight line-height so the
+   glyph's own line box is the same height as its cap-height; padding-top
+   then pushes the cap-top down by exactly the ascender offset of the
+   surrounding text, so the cap aligns with the first line's cap-top. */
+main > h1:first-of-type + p + p::first-letter {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 3.6em;
+    line-height: 0.78;
+    float: left;
+    margin: 0 0.12em 0 0;
+    padding-top: 0.16em;
+    color: var(--ink);
+    font-feature-settings: 'lnum' 1;
+}
+
+/* ============================================================
+   HEADINGS
+   ============================================================ */
+
+main h1 {
+    font-family: var(--font-display);
+    font-size: clamp(1.9rem, 3.2vw, 2.4rem);
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.18;
+    letter-spacing: -0.015em;
+    margin-bottom: 1.2rem;
     text-wrap: balance;
 }
 
 main > * + h2 {
-    margin-top: 2.6rem;
-}
-
-/* Hero banner - first h1 and following paragraph */
-main > h1:first-of-type {
-    font-size: clamp(2.4rem, 5.6vw, 4.2rem);
-    margin: -2.35rem -2.35rem 1.7rem -2.35rem;
-    padding: 7rem 2.35rem;
-    background-image: linear-gradient(135deg, rgba(15, 20, 25, 0.5) 0%, rgba(26, 31, 46, 0.45) 50%, rgba(15, 20, 25, 0.5) 100%),
-                      url('/images/hero/hero.jpeg');
-    background-repeat: no-repeat, no-repeat;
-    /* Overlay fills hero; image prioritizes full horizontal fit and starts lower (~1/3 down). */
-    background-size: 100% 100%, 100% auto;
-    background-position: center center, center 35%;
-    color: var(--color-text-light);
-    line-height: 1.1;
-    position: relative;
-    font-family: var(--font-display);
-    font-weight: 680;
-    letter-spacing: -0.02em;
-    border-radius: 0;
-    animation: heroIn 580ms ease-out both;
-}
-
-main > h1:first-of-type + p {
-    font-size: clamp(1.18rem, 1.95vw, 1.5rem);
-    margin: -1.7rem -2.35rem 2rem -2.35rem;
-    padding: 1.45rem 2.35rem 2rem 2.35rem;
-    background: linear-gradient(120deg, rgba(18, 28, 42, 0.94) 0%, rgba(16, 36, 66, 0.9) 100%);
-    color: var(--color-text-light);
-    font-weight: 500;
-    line-height: 1.52;
-    letter-spacing: 0.016em;
-    max-width: none;
-    border-top: 1px solid rgba(255, 255, 255, 0.18);
-    border-left: 4px solid rgba(133, 167, 255, 0.6);
-    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-    border-radius: 0;
-}
-
-/* If the viewport is taller relative to width, switch to cover to avoid bottom whitespace. */
-@media (max-aspect-ratio: 3/2) {
-    main > h1:first-of-type {
-        background-size: 100% 100%, cover;
-    }
+    margin-top: clamp(6.5rem, 10vw, 9rem);
 }
 
 main h2 {
-    font-size: 1.7rem;
-    margin-top: 2.25rem;
-    margin-bottom: 1rem;
-    color: var(--color-primary);
-    font-weight: 700;
-    letter-spacing: 0.015em;
-    padding-bottom: 0.45rem;
-    border-bottom: 1px solid rgba(148, 163, 184, 0.5);
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 4.6vw, 3.6rem);
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.04;
+    letter-spacing: -0.032em;
+    margin-top: clamp(6.5rem, 10vw, 9rem);
+    margin-bottom: 2.2rem;
+    padding-top: 2.6rem;
+    border-top: 0;
+    text-wrap: balance;
+    position: relative;
 }
 
+/* Section divider — a content-width hairline above the H2. Gilt at
+   low opacity, so the rule reads as a refined edge, not a banner. */
+main h2::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: var(--gilt);
+    opacity: 0.45;
+    margin: 0;
+}
+
+main h2::after { content: none; }
+
+main h2::after { content: none; }
+
 main h3 {
-    font-size: 1.2rem;
-    margin-top: 1.35rem;
-    margin-bottom: 0.65rem;
-    font-family: var(--font-serif);
-    color: #374151;
-    font-weight: 600;
-    padding-left: 0.6rem;
-    border-left: 2px solid rgba(30, 64, 175, 0.3);
+    font-family: var(--font-display);
+    font-size: 1.04rem;
+    font-weight: 400;
+    color: var(--text-secondary);
+    line-height: 1.42;
+    letter-spacing: 0.005em;
+    margin-top: 2.2rem;
+    margin-bottom: 0.7rem;
+    padding-left: 0;
+    border-left: 0;
+    font-style: italic;
 }
 
 main h4 {
     display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    font-size: 0.98rem;
-    margin-top: 1.15rem;
-    margin-bottom: 0.55rem;
-    font-family: var(--font-serif);
-    color: var(--color-accent-dark);
-    font-weight: 700;
-    letter-spacing: 0.08em;
+    align-items: baseline;
+    gap: 1.2rem;
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    letter-spacing: 0.22em;
     text-transform: uppercase;
+    margin-top: 2.4rem;
+    margin-bottom: 1rem;
 }
+
+main h4::before { content: none; }
 
 main h4::after {
     content: '';
     flex: 1 1 auto;
     height: 1px;
-    background: linear-gradient(90deg, rgba(30, 58, 138, 0.35) 0%, rgba(30, 58, 138, 0) 100%);
+    background: var(--rule);
+    transform: translateY(-2px);
 }
 
 main h4 + p,
 main h4 + ul,
 main h4 + ol {
-    margin-top: 0.2rem;
+    margin-top: 0.35rem;
 }
 
+/* ============================================================
+   BODY TEXT
+   ============================================================ */
+
 main p {
-    margin-bottom: 1rem;
-    max-width: 78ch;
+    margin-bottom: 1.2rem;
+    color: var(--text);
+    font-family: var(--font-serif);
+    font-size: 1.05rem;
+    line-height: 1.68;
     text-wrap: pretty;
+    max-width: 62ch;
+    letter-spacing: 0;
 }
+
+/* Bold emphasis inside body stays in the serif voice — Iowan bold
+   weight, slightly tightened tracking, ink color. Reads as a deliberate
+   editorial setting (Term — description) without changing typefaces. */
+main p strong,
+main li > strong:first-child,
+main li p > strong:first-child {
+    color: var(--ink);
+    font-family: var(--font-serif);
+    font-weight: 700;
+    letter-spacing: -0.008em;
+}
+
+main em {
+    color: var(--text);
+    font-style: italic;
+}
+
+main a {
+    color: var(--ink);
+    text-decoration: none;
+    position: relative;
+    background-image: linear-gradient(var(--gilt), var(--gilt));
+    background-size: 100% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    padding-bottom: 2px;
+    transition: color 0.3s ease, background-size 0.4s ease;
+}
+
+main a:hover {
+    color: var(--steel);
+    background-size: 100% 2px;
+}
+
+/* ----------- CTA: a trailing paragraph that's mostly a link ---------- */
+/* Two-tier voice: surrounding copy stays a calm Inter caption in
+   uppercase tracked sans (it's the "label"); the link itself lifts to
+   display-serif weight with a gilt arrow that slides on hover. A 48px
+   gilt mark above signals the section-opening moment. */
+main > p:last-of-type:has(a) {
+    margin-top: clamp(3.5rem, 5.5vw, 5rem);
+    padding-top: 0;
+    border-top: 0;
+    font-size: 0.74rem;
+    font-family: var(--font-sans);
+    font-style: normal;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    position: relative;
+    font-weight: 500;
+    line-height: 2.2;
+    max-width: 64ch;
+}
+
+main > p:last-of-type:has(a)::before {
+    content: '';
+    display: block;
+    width: 48px;
+    height: 1px;
+    background: var(--gilt);
+    margin-bottom: 1.4rem;
+    opacity: 0.9;
+}
+
+main > p:last-of-type:has(a) a {
+    font-family: var(--font-display);
+    font-style: normal;
+    font-weight: 600;
+    font-size: 1.5rem;
+    line-height: 1.2;
+    letter-spacing: -0.018em;
+    text-transform: none;
+    color: var(--ink);
+    background-image: linear-gradient(var(--gilt), var(--gilt));
+    background-size: 100% 1px;
+    background-position: 0 100%;
+    padding-bottom: 4px;
+    transition: background-size 0.45s ease, color 0.3s ease;
+    margin-left: 0.3em;
+    margin-right: 0.05em;
+    vertical-align: baseline;
+    /* Treat the link + arrow as one indivisible unit. If it can't fit
+       beside its caption, it breaks to its own line as a whole — never
+       in the middle of "send us an email". */
+    display: inline-block;
+    white-space: nowrap;
+}
+
+main > p:last-of-type:has(a) a::after {
+    content: '\00a0→';
+    display: inline-block;
+    color: var(--gilt);
+    font-weight: 400;
+    transition: transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1);
+    will-change: transform;
+}
+
+main > p:last-of-type:has(a):hover a {
+    color: var(--steel);
+}
+
+main > p:last-of-type:has(a):hover a::after {
+    transform: translateX(10px);
+}
+
+/* ============================================================
+   LISTS — em-dash bullets, large display numerals
+   ============================================================ */
 
 main ul,
 main ol {
-    margin: 1.15rem 0 1.35rem 0;
+    list-style: none;
+    margin: 2.4rem 0 2.6rem 0;
     padding-left: 0;
-    max-width: 78ch;
-}
-
-main ul {
-    list-style: none;
-}
-
-main ol {
-    list-style: none;
+    max-width: 64ch;
+    font-family: var(--font-serif);
+    font-size: 1.05rem;
+    line-height: 1.62;
+    color: var(--text);
+    letter-spacing: 0;
     counter-reset: refined-list;
 }
 
-main ul > li,
-main ol > li {
-    position: relative;
-    margin-bottom: 0.7rem;
-}
+
+/* ============================================================
+   LISTS — restrained editorial setting. No cards, no borders,
+   no backgrounds. Each item is a "term — description" unit:
+   the bold lead-in sits as the item's title on its own line,
+   the description flows beneath in body voice.
+   Items separated by generous vertical space alone.
+   ============================================================ */
 
 main ul > li {
-    padding: 0 0 0.55rem 1.1rem;
-    border-bottom: 1px solid rgba(148, 163, 184, 0.22);
+    position: relative;
+    margin: 0 0 2.2rem 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+    transition: none;
 }
 
-main ul > li::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0.72rem;
-    width: 0.34rem;
-    height: 0.34rem;
-    border-top: 1.5px solid var(--color-accent-dark);
-    border-right: 1.5px solid var(--color-accent-dark);
-    transform: rotate(45deg);
+main ul > li:last-child { margin-bottom: 0; }
+
+main ul > li::before { content: none; }
+
+/* Match tight-list mode (`<li><strong>X</strong>…`) and loose-list mode
+   (`<li><p><strong>X</strong>…`) — marked wraps items in <p> when there
+   are blank lines between them. */
+main ul > li > strong:first-child,
+main ul > li > p:first-child > strong:first-child {
+    display: block;
+    font-family: var(--font-serif);
+    font-size: 1.26rem;
+    font-weight: 600;
+    line-height: 1.22;
+    letter-spacing: -0.016em;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
 }
 
 main ol > li {
     counter-increment: refined-list;
-    padding-left: 1.9rem;
+    position: relative;
+    margin: 0 0 2.2rem 0;
+    padding: 0 0 0 3.4rem;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+    min-height: auto;
+    overflow: visible;
+    isolation: auto;
+    transition: none;
 }
 
+/* The numeral lives in the left gutter as a small tracked-sans gilt
+   marker — the OL mirrors the UL's typography (serif title +
+   description) and the number sits *beside* the item, not above. */
 main ol > li::before {
-    content: counter(refined-list, decimal-leading-zero) '.';
+    content: counter(refined-list, decimal-leading-zero);
     position: absolute;
     left: 0;
-    top: 0.02rem;
-    color: var(--color-accent-dark);
-    font-size: 0.82rem;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    font-variant-numeric: tabular-nums;
+    top: 0.58rem;
+    width: auto;
+    height: auto;
+    font-family: var(--font-sans);
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0.24em;
+    color: var(--gilt);
+    line-height: 1;
+    text-transform: uppercase;
+    text-align: left;
+    background: none;
+    margin: 0;
+    opacity: 0.85;
 }
+
+/* Same serif title block as UL items. Match both tight-list mode
+   (direct strong child) and loose-list mode (strong wrapped in <p>). */
+main ol > li > strong:first-child,
+main ol > li > p:first-child > strong:first-child {
+    display: block;
+    font-family: var(--font-serif);
+    font-size: 1.26rem;
+    font-weight: 600;
+    line-height: 1.22;
+    letter-spacing: -0.016em;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+}
+
+main ol > li:last-child { margin-bottom: 0; }
+
+main ul > li::before {
+    transition: width 0.35s ease, opacity 0.35s ease;
+}
+
+main ul > li:hover::before {
+    width: 2.1rem;
+    opacity: 1;
+}
+
+main ol > li:last-child { margin-bottom: 0; }
+
+/* The strong-led list items inherit the global p strong / li strong
+   rule (Inter semibold) — that produces the editorial contrast where
+   the bold opener leaps out of the serif description. */
+
+/* ============================================================
+   NESTED LISTS — quiet, compact
+   ============================================================ */
 
 main ul ul,
 main ul ol,
 main ol ul,
 main ol ol {
-    margin: 0.45rem 0 0.2rem 0;
+    margin: 0.85rem 0 0.4rem 0;
     max-width: none;
-    padding-left: 0.9rem;
 }
 
-main ol ol {
-    counter-reset: refined-sublist;
-}
+main ol ol { counter-reset: refined-sublist; }
 
 main ul ul > li,
 main ul ol > li,
 main ol ul > li,
 main ol ol > li {
-    margin-bottom: 0.3rem;
-    border-bottom: 0;
-    padding-bottom: 0;
-}
-
-main ul ul > li,
-main ol ul > li {
-    padding-left: 1rem;
+    margin-bottom: 0.5rem;
+    padding: 0 0 0 1.4rem;
+    min-height: 0;
+    border: 0;
 }
 
 main ul ul > li::before,
 main ol ul > li::before {
-    content: '—';
+    content: '';
     position: absolute;
     left: 0;
-    top: 0.06rem;
-    color: var(--color-accent-dark);
-    font-weight: 600;
+    top: 0.78em;
+    width: 0.65rem;
+    height: 1px;
+    background: var(--text-muted);
 }
 
 main ol ol > li {
     counter-increment: refined-sublist;
-    padding-left: 1.4rem;
+    padding-left: 2rem;
 }
 
 main ol ol > li::before {
-    content: counter(refined-sublist) '.';
+    content: counter(refined-sublist);
     position: absolute;
     left: 0;
-    top: 0.04rem;
-    color: var(--color-accent-dark);
-    font-size: 0.88rem;
-    font-weight: 600;
-    font-variant-numeric: tabular-nums;
+    top: 0.1em;
+    width: 1.5rem;
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    line-height: 1;
+    background: transparent;
+    text-align: left;
 }
 
-main ul > li:last-child,
-main ol > li:last-child {
-    margin-bottom: 0;
-    border-bottom: 0;
-    padding-bottom: 0;
-}
-
-main li:last-child {
-    margin-bottom: 0;
-}
+/* ============================================================
+   MEDIA & MISC
+   ============================================================ */
 
 main img {
     max-width: 100%;
     height: auto;
-    margin: 1.5rem 0;
-    border-radius: 4px;
+    display: block;
+    margin: 2.4rem auto;
+    border-radius: 2px;
+    box-shadow: 0 12px 36px rgba(6, 18, 42, 0.12);
 }
 
 main code {
-    background-color: var(--color-bg-tertiary);
-    padding: 0.2rem 0.4rem;
-    border-radius: 3px;
+    background-color: var(--paper-warm);
+    padding: 0.16rem 0.44rem;
+    border-radius: 2px;
     font-family: var(--font-mono);
-    font-size: 0.9rem;
+    font-size: 0.86rem;
+    color: var(--ink);
+    border: 1px solid var(--rule);
 }
 
 main pre {
-    background-color: var(--color-bg-tertiary);
-    padding: 1rem;
-    border-radius: 4px;
+    background-color: var(--paper-warm);
+    padding: 1.2rem 1.4rem;
+    border-radius: 2px;
     overflow-x: auto;
-    margin-bottom: 1rem;
+    margin: 1.6rem 0;
+    border-left: 2px solid var(--steel);
+    max-width: 100%;
 }
 
 main pre code {
     padding: 0;
     background-color: transparent;
+    color: var(--text);
+    border: 0;
 }
 
 main blockquote {
-    border-left: 3px solid rgba(30, 64, 175, 0.55);
-    padding: 0.65rem 0 0.65rem 1rem;
-    margin: 1.2rem 0;
-    color: var(--color-text-secondary);
+    border-left: 0;
+    padding: 1.8rem 0 0 0;
+    margin: 3rem 0 3rem 0;
+    color: var(--ink);
+    font-family: var(--font-display);
     font-style: italic;
-    background: linear-gradient(90deg, rgba(30, 64, 175, 0.06) 0%, rgba(30, 64, 175, 0) 85%);
+    font-size: clamp(1.4rem, 2.2vw, 1.85rem);
+    font-weight: 400;
+    line-height: 1.32;
+    letter-spacing: -0.008em;
+    background: transparent;
+    max-width: 56ch;
+    position: relative;
+    text-wrap: balance;
 }
 
-/* Logo styling */
-header img.logo {
-    height: 50px;
-    width: auto;
-    display: block;
-    max-width: 100%;
-    filter: brightness(0) invert(1);
+main blockquote::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 40px;
+    height: 1px;
+    background: var(--gilt);
 }
 
-/* Footer */
+main blockquote p {
+    max-width: none;
+}
+
+main blockquote p:last-child { margin-bottom: 0; }
+
+main hr {
+    border: 0;
+    height: 1px;
+    margin: 4rem 0;
+    background: var(--gilt);
+    opacity: 0.7;
+    max-width: 56px;
+    grid-column: content;
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+
 footer {
-    background: linear-gradient(120deg, #0f1a2a 0%, #182c47 58%, #12304f 100%);
-    color: var(--color-text-light);
+    background: var(--ink-deep);
+    color: var(--text-on-dark-dim);
     text-align: center;
-    padding: 2.4rem 2rem;
+    padding: 3.4rem var(--gutter) 3.4rem;
     margin-top: 0;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 0;
     position: relative;
     overflow: hidden;
 }
@@ -545,25 +973,90 @@ footer::before {
     content: '';
     position: absolute;
     top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, rgba(14, 165, 233, 0) 0%, rgba(14, 165, 233, 0.6) 50%, rgba(14, 165, 233, 0) 100%);
+    left: 50%;
+    transform: translateX(-50%) scaleX(0);
+    transform-origin: center;
+    width: 56px;
+    height: 1px;
+    background: var(--gilt);
+    opacity: 0.78;
+    animation: footerGild 1.2s cubic-bezier(0.2, 0.7, 0.2, 1) 400ms both;
+}
+
+@keyframes footerGild {
+    from { transform: translateX(-50%) scaleX(0); opacity: 0; }
+    to   { transform: translateX(-50%) scaleX(1); opacity: 0.78; }
 }
 
 footer p {
     margin: 0;
-    font-family: var(--font-serif);
-    letter-spacing: 0.02em;
-    color: rgba(245, 248, 250, 0.84);
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(245, 243, 238, 0.5);
     position: relative;
     z-index: 1;
 }
 
-@keyframes revealUp {
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes heroIn {
+    from { opacity: 0; transform: scale(1.01); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* Subtle Ken Burns drift on the hero — almost imperceptible vertical pan */
+@keyframes kenBurns {
+    0%   { background-position: center center, center center, center 36%; }
+    100% { background-position: center center, center center, center 44%; }
+}
+
+main > h1:first-of-type {
+    animation:
+        heroIn 1000ms cubic-bezier(0.2, 0.7, 0.2, 1) both,
+        kenBurns 36s ease-in-out 1000ms infinite alternate;
+}
+
+/* Refine kenBurns end-state for dark mode: page already deep so we keep
+   the pan but reduce the wash range slightly to avoid muddying the photo. */
+
+/* Scroll-driven reveals — Chrome/Edge/Safari TP support animation-timeline.
+   Fallback: elements render normally (no animation, no hidden state). */
+@supports (animation-timeline: view()) {
+    main > h2,
+    main > h3,
+    main > h4,
+    main > p,
+    main > ul,
+    main > ol,
+    main > blockquote,
+    main > hr,
+    main > img,
+    main > pre {
+        animation: scrollReveal linear both;
+        animation-timeline: view();
+        animation-range: entry 0% cover 22%;
+    }
+
+    main > h1:first-of-type + p,
+    main > h1:first-of-type + p + p {
+        animation: none;
+    }
+}
+
+@keyframes scrollReveal {
     from {
         opacity: 0;
-        transform: translateY(10px);
+        transform: translateY(28px);
     }
     to {
         opacity: 1;
@@ -571,19 +1064,67 @@ footer p {
     }
 }
 
-@keyframes heroIn {
-    from {
-        opacity: 0;
-        transform: translateY(8px) scale(0.995);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
     }
 }
 
-/* Responsive */
+/* ============================================================
+   SELECTION
+   ============================================================ */
+
+::selection {
+    background: rgba(42, 77, 125, 0.2);
+    color: var(--ink);
+}
+
+::-moz-selection {
+    background: rgba(42, 77, 125, 0.2);
+    color: var(--ink);
+}
+
+/* Discreet refined scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--rule);
+    border: 3px solid var(--paper);
+    background-clip: padding-box;
+    border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
+    background-clip: padding-box;
+    border: 3px solid var(--paper);
+}
+
+/* Firefox */
+html {
+    scrollbar-width: thin;
+    scrollbar-color: var(--rule) transparent;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
 @media (max-width: 768px) {
+    body { font-size: 17px; }
+
+    header { padding: 1.25rem var(--gutter); }
+    header img.logo { height: 38px; }
+
     .nav-toggle {
         display: inline-flex;
         flex-direction: column;
@@ -592,55 +1133,56 @@ footer p {
         margin: 0;
         padding: 0.25rem;
         border: 0;
-        border-radius: 0;
         background: transparent;
-        box-shadow: none;
         cursor: pointer;
     }
 
     .nav-toggle-bar {
         display: block;
-        width: 1.35rem;
-        height: 2px;
-        background-color: var(--color-text-light);
-        transition: transform 0.2s ease, opacity 0.2s ease;
+        width: 1.4rem;
+        height: 1.5px;
+        background-color: var(--text-on-dark);
+        transition: transform 0.25s ease, opacity 0.25s ease;
     }
 
     .nav-toggle.is-open .nav-toggle-bar:nth-child(1) {
         transform: translateY(0.4rem) rotate(45deg);
     }
-
-    .nav-toggle.is-open .nav-toggle-bar:nth-child(2) {
-        opacity: 0;
-    }
-
+    .nav-toggle.is-open .nav-toggle-bar:nth-child(2) { opacity: 0; }
     .nav-toggle.is-open .nav-toggle-bar:nth-child(3) {
         transform: translateY(-0.4rem) rotate(-45deg);
     }
 
     nav {
         position: static;
-        top: auto;
         display: none;
         margin-top: 0;
-        background: rgba(255, 255, 255, 0.96);
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
+        background: var(--ink-deep);
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
     }
-
-    nav.is-open {
-        display: block;
-    }
+    nav.is-open { display: block; }
 
     nav ul {
         flex-direction: column;
-        max-width: none;
-        gap: 0.2rem;
-        padding: 0.35rem 0.6rem 0.7rem;
+        gap: 0;
+        padding: 0.4rem var(--gutter) 1rem;
     }
 
-    nav li {
-        width: 100%;
+    nav li { width: 100%; }
+
+    nav a, nav .submenu-toggle {
+        padding: 1rem 0;
+        font-size: 0.78rem;
+    }
+
+    nav > ul > li:first-child > a,
+    nav > ul > li:first-child > .submenu-toggle { padding-left: 0; }
+
+    nav a.active::after {
+        left: 0;
+        right: auto;
+        width: 28px;
+        bottom: 0.35rem;
     }
 
     nav .submenu-toggle {
@@ -652,50 +1194,172 @@ footer p {
     nav .has-submenu > ul {
         position: static;
         box-shadow: none;
-        border-radius: 0;
         min-width: 0;
-        background-color: var(--color-bg-secondary);
+        background-color: transparent;
+        border-top: 0;
         display: none;
-        padding: 0;
+        padding: 0 0 0.6rem 0;
     }
 
     nav .has-submenu:hover > ul,
-    nav .has-submenu:focus-within > ul {
-        display: none;
-    }
+    nav .has-submenu:focus-within > ul { display: none; }
 
-    nav .has-submenu.is-open > ul {
-        display: flex;
+    nav .has-submenu.is-open > ul { display: flex; }
+
+    nav .has-submenu > ul a {
+        padding: 0.7rem 0 0.7rem 1.1rem;
     }
 
     nav .has-submenu.is-open > .submenu-toggle .arrow {
         transform: rotate(180deg);
     }
 
-    nav .arrow {
-        transition: transform 0.2s ease;
-    }
-
-    .container {
-        padding: 0;
-    }
+    nav .arrow { transition: transform 0.25s ease; }
 
     main {
-        padding: 1.1rem;
-        margin: 0.8rem auto 0;
-        border-radius: 14px;
+        padding: 0 0 4rem 0;
     }
 
     main > h1:first-of-type {
-        margin: -1.1rem -1.1rem 1rem -1.1rem;
-        padding: 4rem 1.1rem;
-        border-radius: 0;
+        min-height: 26rem;
+        padding: 2.5rem var(--gutter) 3rem var(--gutter);
+        font-size: clamp(2.3rem, 9.5vw, 3.4rem);
+    }
+
+    main > h1:first-of-type::before {
+        width: 40px;
+        margin-bottom: 1.4rem;
     }
 
     main > h1:first-of-type + p {
-        margin: -1rem -1.1rem 1rem -1.1rem;
-        padding: 1.05rem 1.1rem 1.2rem;
-        border-left-width: 3px;
-        border-radius: 0;
+        padding: 1.7rem var(--gutter) 1.9rem var(--gutter);
+        font-size: 1.08rem;
     }
+
+    main > h1:first-of-type + p + p {
+        margin-top: 3rem;
+        font-size: 1.1rem;
+    }
+
+    main > * + h2,
+    main h2 {
+        margin-top: 4rem;
+        padding-top: 2.4rem;
+        font-size: clamp(1.6rem, 6vw, 2rem);
+    }
+
+    main ol > li {
+        padding-left: 3.6rem;
+    }
+
+    main ol > li::before {
+        font-size: 2rem;
+        width: 2.6rem;
+    }
+
+    main ul > li {
+        padding-left: 2rem;
+    }
+
+    main ul > li::before {
+        width: 1.2rem;
+    }
+}
+
+/* ============================================================
+   DARK MODE — engages when the user's OS prefers dark.
+   Same navy/gilt DNA, inverted canvas + atmospheric overrides.
+   ============================================================ */
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        /* Type colors flipped: cream on a deep navy canvas. */
+        --ink: #f3ecdb;
+        --text: #d8d1bf;
+        --text-secondary: #a39a85;
+        --text-muted: #6c6555;
+
+        /* Surfaces — page becomes a deep navy; ink-deep stays deeper still. */
+        --paper: #0c1628;
+        --paper-warm: #111c33;
+        --ink-deep: #050c1c;
+
+        /* Brighter accent values so they read against the dark canvas. */
+        --steel: #8ca7d0;
+        --steel-light: #a8c0e3;
+        --gilt: #d4b06a;
+        --gilt-soft: rgba(212, 176, 106, 0.55);
+
+        /* Rules become faint cream over dark. */
+        --rule: rgba(243, 236, 219, 0.1);
+        --rule-soft: rgba(243, 236, 219, 0.05);
+    }
+
+    /* Atmospheric body — warm gilt glow upper-right, cool steel lower-left,
+       and the noise filter recolored as luminous (light grain over dark). */
+    body {
+        background-image:
+            radial-gradient(
+                ellipse 80% 50% at 85% 0%,
+                rgba(212, 176, 106, 0.085) 0%,
+                transparent 55%
+            ),
+            radial-gradient(
+                ellipse 90% 60% at 10% 100%,
+                rgba(140, 167, 208, 0.06) 0%,
+                transparent 60%
+            ),
+            url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.92' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.95  0 0 0 0 0.92  0 0 0 0 0.86  0 0 0 0.55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.4'/></svg>");
+    }
+
+    /* Hero overlay needs slightly deeper gradient floor so the cream
+       headline still anchors against the photo (which is now blending
+       into the page). */
+    main > h1:first-of-type {
+        background-image:
+            radial-gradient(
+                ellipse 120% 80% at 50% 30%,
+                rgba(5, 12, 28, 0) 40%,
+                rgba(5, 12, 28, 0.55) 100%
+            ),
+            linear-gradient(
+                180deg,
+                rgba(5, 12, 28, 0.12) 0%,
+                rgba(5, 12, 28, 0.3) 50%,
+                rgba(5, 12, 28, 0.92) 100%
+            ),
+            url('/images/hero/hero.jpeg');
+    }
+
+    /* Drop cap becomes gilt with a soft warm halo. */
+    main > h1:first-of-type + p + p::first-letter {
+        color: var(--gilt);
+        text-shadow: 0 0 32px rgba(212, 176, 106, 0.22);
+    }
+
+    /* Gilt numeral on the left gets a soft warm glow on dark so it
+       reads as lit, not painted. */
+    main ol > li::before {
+        text-shadow: 0 0 28px rgba(212, 176, 106, 0.22);
+    }
+
+    /* Code: gilt accent on dark surface. */
+    main code { color: var(--gilt); }
+    main pre { border-left-color: var(--gilt); }
+
+    /* Selection: gilt tint instead of cool blue. */
+    ::selection { background: rgba(212, 176, 106, 0.28); }
+    ::-moz-selection { background: rgba(212, 176, 106, 0.28); }
+
+    /* Scrollbar: faint cream thumb, gilt on hover. Track border becomes
+       transparent so it doesn't show against the dark canvas. */
+    ::-webkit-scrollbar-thumb {
+        background: rgba(243, 236, 219, 0.14);
+        border: 3px solid transparent;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background: rgba(212, 176, 106, 0.45);
+        border: 3px solid transparent;
+    }
+    html { scrollbar-color: rgba(243, 236, 219, 0.14) transparent; }
 }

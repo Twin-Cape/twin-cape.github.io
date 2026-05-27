@@ -18,8 +18,6 @@ Our Flagship strategy represents the culmination of years of investment research
 The Flagship strategy regularly takes concentrated positions in single securities, while maintaining a liberal cash balance. The strategy takes a long-term view toward earning total returns and has generated solid mid-double-digit percentage returns annually, since inception.
 
 
-### Investment Vehicles
-
 #### The Twin Cape Partnership
 
 The Twin Cape Partnership is the primary way we offer our services to clients. Partners of Twin Cape contribute capital into a pooled fund and receive numerous benefits in return:
@@ -33,3 +31,5 @@ The Twin Cape Partnership is the primary way we offer our services to clients. P
 #### Separately Managed Accounts (SMAs)
 
 To our most steadfast and loyal partners, we extend our completely customized asset management services for high-touch, hands-on, bespoke portfolio management.
+
+To invest with us, [reach out](contact.html)
