@@ -13,23 +13,21 @@ We offer our *Flagship Multi-Asset Strategy* to a selective group of investors t
 
 ### Flagship Multi-Asset Strategy
 
-Our Flagship strategy represents the culmination of years of investment research, market implementation, and practitioner experience. The strategy takes an all-asset-class, all-geography, all-sector approach to earning a satisfactory return for clients, within strictly enforced risk limits.
+Our Flagship strategy represents the culmination of years of investment research, market implementation, and practitioner experience. The strategy takes an all-asset-class, all-geography, all-sector approach to earning a satisfactory return for clients.
 
-The Flagship strategy regularly takes concentrated positions in single securities, while maintaining a liberal cash balance. The strategy takes a long-term view toward earning total returns and has generated solid mid-double-digit percentage returns annually, since inception.
+The Flagship strategy regularly takes concentrated positions in one to three securities, while maintaining a liberal cash balance.
 
 
 #### The Twin Cape Partnership
 
-The Twin Cape Partnership is the primary way we offer our services to clients. Partners of Twin Cape contribute capital into a pooled fund and receive numerous benefits in return:
+The Twin Cape Partnership is the primary way we offer our services to clients. Partners of Twin Cape contribute capital into a pooled fund (three-year lockup) and receive numerous benefits in return:
 
 1. Access to world-class asset management services;
-2. Exposure to our Flagship strategy;
-3. Membership in a selective group of like-minded investors;
-4. Regularly scheduled events and membership perks, including our in-house research letters; and
-5. Many more valuable and interesting advantages.
+2. Exposure to our Flagship strategy; and,
+3. Special distributions and fee rebates, made available due to the scale of the pooled fund.
 
 #### Separately Managed Accounts (SMAs)
 
 To our most steadfast and loyal partners, we extend our completely customized asset management services for high-touch, hands-on, bespoke portfolio management.
 
-To invest with us, [reach out](contact.html)
+Meet [our team](team.html)

@@ -1,11 +1,11 @@
 ---
 title: Get In Touch
-nav_order: 4
+nav_order: 6
 ---
 
 # Get In Touch
 
-We'd love to hear from you. Contact our team to discuss your investment needs.
+Contact our team to discuss your investment needs.
 
 ## Office Locations
 

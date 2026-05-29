@@ -11,22 +11,18 @@ Redefining Canadian asset management.
 
 Twin Cape Asset Management is a Canadian investment management firm based in Toronto, Ontario.
 
-We leverage proprietary insights and in-house technology to offer premium institutional investment services to retail clients.
+We leverage proprietary insights and in-house technology to offer premier investment services to our clients.
 
 ## What Makes Us Unique
 
-- **Deep research and insight.** Our seasoned investment team brings a world-class, institutional approach to your portfolio.
-- **A global, multi-asset perspective.** We back our investments with the global expertise of our top-tier team, compounded across every investable asset class.
-- **Proprietary investment methods.** We leverage our knowledge and experience gained at leading institutions to design proprietary risk-management processes.
-- **A stellar track record.** We believe our investment track record offers a unique allocation opportunity for investors of all kinds.
+- **Experienced management.** Our seasoned [investment team](team.html) brings world-class expertise from leading, global institutions.
+- **A global, multi-asset perspective.** We are backed by successful outcomes investing across three continents and every investable asset class.
+- **Deep research and insight.** Our proprietary investment process has been thoughtfully designed to set us — and [our performance](performance.html) — apart.
 
 ## Our Approach
 
-We take pride in delivering a premier investment experience. Our approach involves:
-
 1. **Understanding the needs of our clients.** Our partners expect a premier investment experience, which we are challenged to deliver every day.
-2. **Taking a long term view.** We take a long term view on both investments and people. Our partners often develop a familiarity with our approach for many years before ever writing a check.
-3. **Rigorous, proprietary analysis.** The caliber of our partners demands that we bring to bear the full range of our team's financial acumen and surface the very best opportunities for the portfolio.
-4. **Producing delightful investment outcomes.** We believe in going beyond [our returns](returns.html) - which have been solid - to deliver delightful perks to investors in Twin Cape.
+2. **Taking a long term view.** We take a long term view on both investments and people. We encourage partners to become familiar with our approach many years before ever writing a check.
+4. **Producing delightful investment outcomes.** The caliber of our partners demands that we realize the full force of our financial acument to deliver the very best results.
 
 Learn more about [our philosophy](philosophy.html)
