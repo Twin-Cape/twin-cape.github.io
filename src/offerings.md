@@ -23,7 +23,7 @@ The Flagship strategy regularly takes concentrated positions in one to three sec
 The Twin Cape Partnership is the primary way we offer our services to clients. Partners of Twin Cape contribute capital into a pooled fund (three-year lockup) and receive numerous benefits in return:
 
 1. Access to world-class asset management services;
-2. Exposure to our Flagship strategy; and,
+2. Exposure to our Flagship strategies; and,
 3. Special distributions and fee rebates, made available due to the scale of the pooled fund.
 
 #### Separately Managed Accounts (SMAs)

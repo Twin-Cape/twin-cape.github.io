@@ -15,7 +15,7 @@ We leverage proprietary insights and in-house technology to offer premier invest
 
 ## What Makes Us Unique
 
-- **Experienced management.** Our seasoned [investment team](team.html) brings world-class expertise from leading, global institutions.
+- **Founder-led.** We are an entirely founder-led and operated investment firm, which allows us to fully realize our expression of alpha within your portfolios.
 - **A global, multi-asset perspective.** We are backed by successful outcomes investing across three continents and every investable asset class.
 - **Deep research and insight.** Our proprietary investment process has been thoughtfully designed to set us — and [our performance](returns.html) — apart.
 

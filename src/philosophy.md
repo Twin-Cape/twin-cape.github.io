@@ -5,7 +5,7 @@ nav_order: 2
 
 # Our Philosophy
 
-If you buy $1 for $0.75 consistently, you will make money.
+Thoughtful allocation meets consistency.
 
 Our investment philosophy is the result of a career's worth of research, analysis, and experience. We regard our philosophy as a living document - one which reflects our learnings over time and updates as we research and develop novel approaches and methods.
 
