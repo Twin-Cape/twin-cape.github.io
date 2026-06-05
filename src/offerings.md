@@ -1,5 +1,5 @@
 ---
-title: Our Products
+title: Products
 nav_order: 3
 ---
 
@@ -19,11 +19,11 @@ The High-Conviction Flagship strategy regularly takes concentrated positions in 
 
 #### The Twin Cape Partnership
 
-The Twin Cape Partnership is the primary way we offer our services to clients. Partners of Twin Cape contribute capital into a pooled fund and receive numerous benefits in return:
+The Twin Cape Partnership is the primary way we offer our services to clients. Partners of Twin Cape contribute capital into a pooled fund and receive numerous benefits in return, including:
 
 1. Access to world-class asset management services;
 2. Exposure to our Flagship strategies; and,
-3. Special distributions and fee rebates, made available due to the scale of the pooled fund.
+3. Alignment with management, which invests the vast majority of net assets alongside the partners.
 
 #### Separately Managed Accounts (SMAs)
 
