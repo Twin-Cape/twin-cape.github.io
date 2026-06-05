@@ -7,21 +7,39 @@ nav_order: 5
 
 Strong results across multiple cycles.
 
-## Returns by Year
+## High-Conviction Flagship
 
-The returns below represent the returns of the consolidated personal trading accounts of the Principal Portfolio Manager, which reflects our Flagship strategy.
+### Key Portfolio Data
 
-|  Period   |  Twin Cape |   The Dow  |
-|:---------:|-----------:|-----------:|
-|    2019*  |    +8.6%   |    +8.6%   |
-|    2020   |  +110.7%   |    +4.7%   |
-|    2021   |  +136.1%   |   +18.7%   |
-|    2022   |   -61.8%   |    -3.0%   |
-|    2023   |  +466.7%   |   +11.0%   |
-|    2024   |   -38.5%   |   +22.4%   |
-|    2025   |   +95.3%   |   +13.4%   |
-| 2026 YTD  |   +31.3%   |    +5.2%   |
-|**Average**| **+56.1%** | **+11.1%** |
+The data below represent consolidated fund metrics for the period November 7, 2019 to date.
 
-*Note: Past performance is not indicative of future results. Returns are gross of fees.*<br/>
-\*Represents the partial period beginning November 9, 2026.
+| Metric                     | Twin Cape High-Conviction Flagship | S&P 500 |
+| :------------------------- | :--------------------------------: | :-----: |
+| Cumulative Return          |               654.9%               | 179.6%  |
+| Capture Ratio              |                3.01                |  1.00   |
+| Correlation                |               36.3%                | 100.0%  |
+| Jensen's Alpha             |               23.00%               |  0.00%  |
+| CAPM R²                    |               13.1%                | 100.0%  |
+| Fama-French 5-Factor Alpha |               33.10%               |  2.65%  |
+| Fama-French 5-Factor R²    |               30.6%                |  89.0%  |
+
+_Note: Past performance is not indicative of future results. No actual fees were charged for the time periods shown; however, the returns are as adjusted for the go-forward expected fee structure and therefore reflect the hypothetical net-of-fees returns._<br/>
+
+### Net Returns By Year
+
+The returns below include the consolidated personal trading accounts of the Principal Portfolio Manager, which reflects our High-Conviction Flagship strategy.
+
+|   Period    | Twin Cape High-Conviction Flagship |  S&P 500   |
+| :---------: | :--------------------------------: | :--------: |
+|   2019\*    |               +8.4%                |   +4.0%    |
+|    2020     |               +68.5%               |   +15.6%   |
+|    2021     |               +89.3%               |   +28.6%   |
+|    2022     |               -61.3%               |   -12.9%   |
+|    2023     |              +345.1%               |   +23.3%   |
+|    2024     |               -41.1%               |   +35.6%   |
+|    2025     |               +83.2%               |   +12.5%   |
+|  2026 YTD   |               +17.5%               |   +10.3%   |
+| **Average** |             **+36.2%**             | **+17.0%** |
+
+_Note: Past performance is not indicative of future results. No actual fees were charged for the time periods shown; however, the returns are as adjusted for the go-forward expected fee structure and therefore reflect the hypothetical net-of-fees returns._<br/>
+\*Represents the partial period beginning November 7, 2019.
