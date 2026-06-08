@@ -1,5 +1,5 @@
 ---
-title: The Returns
+title: Returns
 nav_order: 5
 ---
 

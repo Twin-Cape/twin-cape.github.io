@@ -44,10 +44,23 @@ echo -e "${BLUE}🔀 Switching to gh-pages branch...${NC}"
 git checkout gh-pages
 echo -e "${GREEN}✓ On gh-pages branch${NC}\n"
 
-# Step 4: Remove old files and copy new ones
+# Step 4: Replace published files with the fresh build
 echo -e "${BLUE}🗑️  Updating published files...${NC}"
-find . -maxdepth 1 -type f -name "*.html" -delete
-rm -rf services
+# Sanity check: never wipe the site if the build produced no pages.
+if [ -z "$(find "$TEMP_DIR" -maxdepth 1 -name '*.html' -print -quit)" ]; then
+  echo -e "${YELLOW}⚠️  Build output has no HTML — aborting to avoid wiping gh-pages${NC}"
+  exit 1
+fi
+# Clean-slate: remove all previously published files except VCS / Pages
+# metadata, then copy the fresh build. This prevents stale fingerprinted
+# assets (old style.<hash>.css, nav.<hash>.js, images) and the local build
+# dir from accumulating on the deploy branch.
+find . -maxdepth 1 -mindepth 1 \
+  ! -name '.git' \
+  ! -name '.gitignore' \
+  ! -name 'CNAME' \
+  ! -name '.nojekyll' \
+  -exec rm -rf {} +
 cp -r "$TEMP_DIR"/* .
 rm -rf "$TEMP_DIR"
 echo -e "${GREEN}✓ Files updated${NC}\n"
