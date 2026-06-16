@@ -51,23 +51,27 @@ if [ -z "$(find "$TEMP_DIR" -maxdepth 1 -name '*.html' -print -quit)" ]; then
   echo -e "${YELLOW}⚠️  Build output has no HTML — aborting to avoid wiping gh-pages${NC}"
   exit 1
 fi
-# Clean-slate: remove all previously published files except VCS / Pages
-# metadata, then copy the fresh build. This prevents stale fingerprinted
-# assets (old style.<hash>.css, nav.<hash>.js, images) and the local build
-# dir from accumulating on the deploy branch.
-find . -maxdepth 1 -mindepth 1 \
-  ! -name '.git' \
-  ! -name '.gitignore' \
-  ! -name 'CNAME' \
-  ! -name '.nojekyll' \
-  -exec rm -rf {} +
+# Clean-slate the *previously published* files, then copy the fresh build.
+# This prevents stale fingerprinted assets (old style.<hash>.css,
+# nav.<hash>.js, images) and the old tracked dist/ copy from accumulating.
+#
+# IMPORTANT: we use `git rm` (tracked files only) rather than a filesystem
+# wipe. The gh-pages working tree shares this directory with main's
+# untracked / gitignored files (node_modules/, the local dist/ build), and a
+# blanket `rm` would delete those too — they don't come back on `checkout
+# main` because they're gitignored. Metadata is preserved via exclude
+# pathspecs.
+git rm -r -q --ignore-unmatch . \
+  ':(exclude)CNAME' ':(exclude).gitignore' ':(exclude).nojekyll' >/dev/null
 cp -r "$TEMP_DIR"/* .
 rm -rf "$TEMP_DIR"
 echo -e "${GREEN}✓ Files updated${NC}\n"
 
 # Step 5: Commit and push
 echo -e "${BLUE}📤 Committing and pushing...${NC}"
-git add -A
+# Stage everything except the local build dir — dist/ is a dev artifact, not
+# something we publish to the branch root (it isn't in gh-pages' .gitignore).
+git add -A -- . ':(exclude)dist'
 TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
 git commit -m "Publish: $TIMESTAMP" || echo "No changes to commit"
 git push origin gh-pages

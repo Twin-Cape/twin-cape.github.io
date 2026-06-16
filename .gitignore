@@ -140,3 +140,6 @@ vite.config.ts.timestamp-*
 
 # Compiled client-side scripts (generated from layouts/nav.ts at build time)
 public/nav.js
+
+# macOS
+.DS_Store

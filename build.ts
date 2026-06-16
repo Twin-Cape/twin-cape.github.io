@@ -17,6 +17,56 @@ const DIST_DIR = path.join(__dirname, 'dist');
 const LAYOUTS_DIR = path.join(__dirname, 'layouts');
 const PUBLIC_DIR = path.join(__dirname, 'public');
 
+// Read a single KEY=value from a local .env file (dependency-free), if one
+// exists. Real environment variables take precedence over the file.
+function readEnvFile(key: string): string | undefined {
+  const envPath = path.join(__dirname, '.env');
+  if (!fs.existsSync(envPath)) return undefined;
+  for (const line of fs.readFileSync(envPath, 'utf-8').split('\n')) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith('#')) continue;
+    const eq = trimmed.indexOf('=');
+    if (eq === -1 || trimmed.slice(0, eq).trim() !== key) continue;
+    let val = trimmed.slice(eq + 1).trim();
+    if ((val.startsWith('"') && val.endsWith('"')) ||
+        (val.startsWith("'") && val.endsWith("'"))) {
+      val = val.slice(1, -1);
+    }
+    return val;
+  }
+  return undefined;
+}
+
+// Google Analytics 4 Measurement ID. Resolution order: real env var, then the
+// local (gitignored) .env file, then empty (analytics disabled). The ID is NOT
+// a secret — it ships in the page HTML to every visitor — but keeping it in
+// .env stays out of source control. See .env.example.
+const GA_MEASUREMENT_ID =
+  process.env.GA_MEASUREMENT_ID ?? readEnvFile('GA_MEASUREMENT_ID') ?? '';
+
+// gtag.js loader for the <head>. Returns '' when no ID is configured, and
+// skips loading on localhost so dev previews don't pollute your stats.
+function analyticsSnippet(): string {
+  if (!GA_MEASUREMENT_ID) return '';
+  return `<!-- Google Analytics (GA4) -->
+<script>
+  (function () {
+    var id = '${GA_MEASUREMENT_ID}';
+    var h = location.hostname;
+    if (h === 'localhost' || h === '127.0.0.1' || h === '') return;
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=' + id;
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    window.gtag = gtag;
+    gtag('js', new Date());
+    gtag('config', id);
+  })();
+</script>`;
+}
+
 interface FrontMatter {
   title?: string;
   nav_order?: string;
@@ -174,7 +224,8 @@ function processMarkdown(srcFile: string, relDir: string): string {
     .replace(/{{title}}/g, metadata.title ?? 'Page')
     .replace(/{{year}}/g, String(new Date().getFullYear()))
     .replace(/{{nav}}/g, navHtml)
-    .replace(/{{content}}/g, htmlContent);
+    .replace(/{{content}}/g, htmlContent)
+    .replace(/{{analytics}}/g, analyticsSnippet());
 
   // Replace image references: ![alt](images/filename.jpg) -> <img src="/images/filename.jpg" alt="alt">
   html = html.replace(/!\[([^\]]*)\]\(images\/([^)]+)\)/g, '<img src="/images/$2" alt="$1">');
