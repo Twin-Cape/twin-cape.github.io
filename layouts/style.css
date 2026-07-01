@@ -884,6 +884,56 @@ main img {
     box-shadow: 0 12px 36px rgba(6, 18, 42, 0.12);
 }
 
+/* Captioned figures. The <figure> owns the block spacing; the image inside
+   is presented as a framed "plate" and the caption hugs it below. */
+main figure {
+    margin: 3.2rem auto;
+    max-width: 100%;
+}
+
+main figure img {
+    margin: 0 auto 1.15rem;
+    border-radius: 4px;
+    box-shadow:
+        0 1px 2px rgba(6, 18, 42, 0.05),
+        0 16px 44px rgba(6, 18, 42, 0.12);
+}
+
+/* Diagrams & charts (SVG) sit on their own white mat with a hairline frame,
+   so dark-stroked artwork stays legible on any canvas — including dark mode,
+   where the page itself is deep navy. Photographs (raster) keep the plain
+   edge-to-edge plate above and are deliberately excluded. */
+main figure img[src$=".svg"] {
+    background: #ffffff;
+    padding: 1.7rem 1.9rem;
+    border: 1px solid var(--rule);
+}
+
+main figcaption {
+    max-width: 54ch;
+    margin: 0 auto;
+    text-align: center;
+    font-family: var(--font-sans);
+    font-size: 0.82rem;
+    line-height: 1.55;
+    color: var(--text-muted);
+}
+
+/* "Figure 1" reads as a small letterspaced label, set off from the caption
+   body by an em dash supplied here (authors don't type it). */
+main figcaption .figure-label {
+    color: var(--text-secondary);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+}
+
+main figcaption .figure-label::after {
+    content: "  —  ";
+    color: var(--text-muted);
+    font-weight: 400;
+    letter-spacing: 0;
+}
+
 main code {
     background-color: var(--paper-warm);
     padding: 0.16rem 0.44rem;
@@ -1091,6 +1141,7 @@ main > h1:first-of-type {
     main > blockquote,
     main > hr,
     main > img,
+    main > figure,
     main > pre {
         animation: scrollReveal linear both;
         animation-timeline: view();
@@ -1396,6 +1447,18 @@ html {
     /* Code: gilt accent on dark surface. */
     main code { color: var(--gilt); }
     main pre { border-left-color: var(--gilt); }
+
+    /* Figure plates: the navy drop-shadow vanishes on the navy canvas, so the
+       white mat gets a faint luminous ring + deeper ambient shadow to read as
+       floating rather than pasted on. */
+    main figure img {
+        box-shadow:
+            0 0 0 1px rgba(243, 236, 219, 0.06),
+            0 24px 60px rgba(0, 0, 0, 0.55);
+    }
+    main figure img[src$=".svg"] {
+        border-color: rgba(243, 236, 219, 0.14);
+    }
 
     /* Selection: gilt tint instead of cool blue. */
     ::selection { background: rgba(212, 176, 106, 0.28); }

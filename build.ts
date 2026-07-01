@@ -195,6 +195,42 @@ function renderNav(navItems: NavItem[], currentPath = '', isNested = false): str
   return html;
 }
 
+// Convert standalone images into semantic <figure> blocks.
+//
+// In Markdown, write an image with an optional title to attach a caption:
+//
+//   ![alt text](images/content/chart.svg "Heading || Caption sentence.")
+//
+//   • alt text  — accessibility description (required; never shown visually)
+//   • title     — becomes the <figcaption>. If it contains the "||" delimiter,
+//                 the part before it renders as a bold heading/label and the
+//                 part after as the caption body. With no "||", the whole title
+//                 is the caption. With no title at all, no caption is rendered.
+//
+// marked emits a standalone image wrapped in its own <p>; we match that whole
+// paragraph and replace it so the <figure> is not nested inside a <p>.
+function renderFigures(html: string): string {
+  return html.replace(
+    /<p>\s*(<img\b[^>]*>)\s*<\/p>/g,
+    (_match, imgTag: string) => {
+      const titleMatch = imgTag.match(/\stitle="([^"]*)"/);
+      const title = titleMatch ? titleMatch[1] : '';
+      // The title drives the caption, so strip it off the <img> itself.
+      const cleanImg = imgTag.replace(/\stitle="[^"]*"/, '');
+
+      let caption = '';
+      if (title) {
+        const [head, ...rest] = title.split('||');
+        caption = rest.length
+          ? `<figcaption><strong class="figure-label">${head.trim()}</strong> ${rest.join('||').trim()}</figcaption>`
+          : `<figcaption>${head.trim()}</figcaption>`;
+      }
+
+      return `<figure>${cleanImg}${caption}</figure>`;
+    }
+  );
+}
+
 // Process a single markdown file
 function processMarkdown(srcFile: string, relDir: string): string {
   const content = fs.readFileSync(srcFile, 'utf-8');
@@ -208,6 +244,15 @@ function processMarkdown(srcFile: string, relDir: string): string {
   // CSS treatment the lead-in now displays as the item's title on its own
   // line, so the dash reads as orphaned punctuation rather than a separator.
   htmlContent = htmlContent.replace(/<\/strong>\s+[-–—]\s+/g, '</strong> ');
+
+  // Normalize content-image paths to be absolute from the site root. Markdown
+  // images are authored with a relative `images/...` src, but every page lives
+  // at a different depth (e.g. /essays/foo.html), so the path must be rooted
+  // for the browser — and for the fingerprinting pass to rewrite it.
+  htmlContent = htmlContent.replace(/(<img\b[^>]*\bsrc=")images\//g, '$1/images/');
+
+  // Wrap standalone images in <figure>/<figcaption>.
+  htmlContent = renderFigures(htmlContent);
 
   // Load and render template
   const template = loadTemplate();
@@ -226,9 +271,6 @@ function processMarkdown(srcFile: string, relDir: string): string {
     .replace(/{{nav}}/g, navHtml)
     .replace(/{{content}}/g, htmlContent)
     .replace(/{{analytics}}/g, analyticsSnippet());
-
-  // Replace image references: ![alt](images/filename.jpg) -> <img src="/images/filename.jpg" alt="alt">
-  html = html.replace(/!\[([^\]]*)\]\(images\/([^)]+)\)/g, '<img src="/images/$2" alt="$1">');
 
   return html;
 }
