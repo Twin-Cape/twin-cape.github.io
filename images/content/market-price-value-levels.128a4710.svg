@@ -1,0 +1,22 @@
+<svg width="100%" viewBox="0 0 680 390" xmlns="http://www.w3.org/2000/svg" role="img" style="">
+<title>Market price versus intrinsic value</title>
+<desc>Time on the horizontal axis and dollars on the vertical axis. A solid line marks true worth, a dashed line marks a lower estimated worth, and a dotted line marks a still-lower acceptable purchase price. A sine curve labelled market price oscillates above and below all three levels. A curly brace on the left marks the gap between the acceptable purchase price and estimated worth as the target return.</desc>
+<style>text{font-family:'Anthropic Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;}</style>
+<line x1="66" y1="360" x2="455" y2="360" stroke="#898781" stroke-width="1" stroke-linecap="round"/>
+<line x1="66" y1="360" x2="66" y2="52" stroke="#898781" stroke-width="1" stroke-linecap="round"/>
+<polygon points="464,360 455,356 455,364" fill="#898781"/>
+<polygon points="66,44 61,52 71,52" fill="#898781"/>
+<text x="66" y="34" text-anchor="middle" font-size="12" font-weight="400" fill="#52514e">dollars</text>
+<text x="472" y="364" text-anchor="start" font-size="12" font-weight="400" fill="#52514e">time</text>
+<line x1="66" y1="155" x2="440" y2="155" stroke="#0b0b0b" stroke-width="1.5" stroke-linecap="round"/>
+<text x="448" y="159" text-anchor="start" font-size="14" font-weight="500" fill="#0b0b0b">true worth</text>
+<line x1="66" y1="208" x2="440" y2="208" stroke="#52514e" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="7 6"/>
+<text x="448" y="212" text-anchor="start" font-size="14" font-weight="500" fill="#52514e">estimated worth</text>
+<line x1="66" y1="235" x2="440" y2="235" stroke="#52514e" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="2 6"/>
+<text x="448" y="239" text-anchor="start" font-size="14" font-weight="500" fill="#52514e">acceptable purchase price</text>
+<path d="M 64 208 Q 58 208 58 212 L 58 217.5 Q 58 221.5 52 221.5 Q 58 221.5 58 225.5 L 58 231 Q 58 235 64 235" fill="none" stroke="#52514e" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="46" y="218" text-anchor="end" font-size="12" font-weight="400" fill="#52514e">target</text>
+<text x="46" y="231" text-anchor="end" font-size="12" font-weight="400" fill="#52514e">return</text>
+<path d="M 66.00 155.00 C 72.93 130.91 79.85 106.98 86.78 89.95 C 93.70 72.92 100.63 63.00 107.56 63.00 C 114.48 63.00 121.41 72.92 128.33 89.95 C 135.26 106.98 142.19 130.91 149.11 155.00 C 156.04 179.09 162.96 203.02 169.89 220.05 C 176.81 237.08 183.74 247.00 190.67 247.00 C 197.59 247.00 204.52 237.08 211.44 220.05 C 218.37 203.02 225.30 179.09 232.22 155.00 C 239.15 130.91 246.07 106.98 253.00 89.95 C 259.93 72.92 266.85 63.00 273.78 63.00 C 280.70 63.00 287.63 72.92 294.56 89.95 C 301.48 106.98 308.41 130.91 315.33 155.00 C 322.26 179.09 329.19 203.02 336.11 220.05 C 343.04 237.08 349.96 247.00 356.89 247.00 C 363.81 247.00 370.74 237.08 377.67 220.05 C 384.59 203.02 391.52 179.09 398.44 155.00 C 405.37 130.91 412.30 106.98 419.22 89.95 C 426.15 72.92 433.07 63.00 440.00 63.00" fill="none" stroke="#378ADD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="448" y="68" text-anchor="start" font-size="14" font-weight="500" fill="#378ADD">market price</text>
+</svg>
