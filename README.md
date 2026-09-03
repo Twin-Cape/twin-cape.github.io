@@ -6,7 +6,7 @@ A minimal, high-performance static site generator built with Node.js for creatin
 
 - **Markdown-based content** - Write pages in simple, readable markdown
 - **Template system** - Define common elements (header, footer, navigation) once
-- **Navigation hierarchy** - Automatic navigation menu from directory structure
+- **Navigation hierarchy** - Navigation menu built from directory structure, ordered by `src/nav.order.json`
 - **Image support** - Simple markdown syntax for images with assets in `/public` folder
 - **Lightweight** - Minimal dependencies (just `marked` for markdown parsing)
 - **SSG output** - Pre-rendered HTML files ready for GitHub Pages
@@ -17,19 +17,19 @@ A minimal, high-performance static site generator built with Node.js for creatin
 ```
 .
 ├── src/                    # Markdown source files
+│   ├── nav.order.json     # Nav order spec (required — see below)
 │   ├── index.md           # Home page
 │   ├── about.md           # About page
 │   ├── services/          # Service section
-│   │   ├── index.md       # Services overview
-│   │   ├── equity-funds.md
-│   │   └── fixed-income.md
+│   │   ├── equity.md
+│   │   └── bonds.md
 │   └── insights.md        # Insights/blog page
 ├── layouts/               # HTML templates
 │   └── page.html          # Main page template
 ├── public/                # Static assets
 │   └── images/            # Images folder
 ├── dist/                  # Built HTML output (generated)
-├── build.js              # Build script
+├── build.ts              # Build script
 ├── package.json
 └── README.md
 ```
@@ -75,7 +75,6 @@ Add metadata at the top of markdown files using simple key-value pairs:
 ```markdown
 ---
 title: Page Title
-nav_order: 1
 ---
 
 # Page Content
@@ -85,22 +84,34 @@ Your markdown content here...
 
 **Available front matter:**
 - `title` - Page title (used in HTML `<title>` and nav)
-- `nav_order` - Order in navigation menu (lower numbers appear first)
 
-### Navigation Hierarchy
+### Navigation Order — `src/nav.order.json`
 
-The navigation is automatically built from your directory structure:
+Nav order lives in a single file, `src/nav.order.json` — not in per-page
+frontmatter. It is an ordered JSON array: an entry's position in the array is
+its position in the nav. To reorder the nav, reorder the lines.
 
+```json
+[
+  "index.md",
+  "about.md",
+  { "services": ["equity.md", "bonds.md"] },
+  "insights.md"
+]
 ```
-src/
-├── index.md          → Home (nav_order: 1)
-├── about.md          → About (nav_order: 2)
-├── services/
-│   ├── index.md      → Services section
-│   ├── equity.md
-│   └── bonds.md
-└── insights.md       → Insights (nav_order: 3)
-```
+
+- Plain string entries are markdown filenames (relative to their directory).
+- A `{ "dirname": [ ... ] }` object is a submenu; its position places the
+  submenu in the parent nav, and its array orders the pages within it.
+- Underscore-prefixed files and directories (`_draft.md`, `_wip/`) are
+  drafts: excluded from the nav and the published site, and must not be
+  listed in the spec.
+
+The build **fails with a detailed error** if the spec and the files in `src/`
+disagree in any way — a page missing from the spec, an entry with no matching
+file, a duplicate, a typo, or malformed JSON — so the two can never silently
+drift apart. Adding a new page means adding one line to `nav.order.json`; the
+error message tells you exactly what to add if you forget.
 
 ### Images
 
@@ -140,7 +151,7 @@ The included template provides:
 The structure supports future additions:
 
 1. **Data files** - Add JSON files for product listings, testimonials, etc.
-2. **Post-build processing** - Extend `build.js` to inject dynamic data into templates
+2. **Post-build processing** - Extend `build.ts` to inject dynamic data into templates
 3. **Server-side rendering** - Add an Express app to serve with real-time data
 4. **API integration** - Modify templates to include API calls for live content
 
@@ -230,7 +241,7 @@ jobs:
 - **Homepage** - `index.md` in the root becomes the homepage
 - **SEO** - The `<title>` tag is automatically set from front matter
 - **Performance** - Pre-rendered HTML loads instantly; no JavaScript required for basic functionality
-- **Extending** - Modify `build.js` to add processing for other file types (JSON data, YAML config, etc.)
+- **Extending** - Modify `build.ts` to add processing for other file types (JSON data, YAML config, etc.)
 
 ## Lightweight Philosophy
 

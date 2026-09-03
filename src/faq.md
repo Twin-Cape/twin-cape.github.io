@@ -1,6 +1,5 @@
 ---
 title: FAQ
-nav_order: 7
 ---
 
 # Q&A

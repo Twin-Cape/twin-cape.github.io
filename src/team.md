@@ -1,6 +1,5 @@
 ---
 title: The Team
-nav_order: 4
 ---
 
 # Our Team

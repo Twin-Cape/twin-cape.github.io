@@ -229,6 +229,10 @@ nav .submenu-toggle {
     text-transform: uppercase;
     font-size: 0.7rem;
     font-weight: 500;
+    /* <button> (the submenu toggle) does not inherit line-height, so it would
+       fall back to `normal` (~1.2) while the anchors inherit the body's 1.66 —
+       leaving "Essays" a hair higher than its neighbors. Pin it for both. */
+    line-height: inherit;
     transition: color 0.3s ease;
     cursor: pointer;
     position: relative;
@@ -907,6 +911,12 @@ main figure img[src$=".svg"] {
     background: #ffffff;
     padding: 1.7rem 1.9rem;
     border: 1px solid var(--rule);
+    /* Force every diagram to the full content-column width. SVGs embedded via
+       <img> have unreliable intrinsic sizing (a percentage root width can't be
+       resolved by the image renderer), so we set the width here and let the
+       shared 680:390 viewBox drive the height. Keeps all figures identical. */
+    width: 100%;
+    height: auto;
 }
 
 main figcaption {

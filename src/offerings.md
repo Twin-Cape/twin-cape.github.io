@@ -1,6 +1,5 @@
 ---
 title: Products
-nav_order: 3
 ---
 
 # Our Products

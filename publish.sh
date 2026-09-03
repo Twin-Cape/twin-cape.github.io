@@ -28,6 +28,18 @@ if ! git diff-index --quiet HEAD --; then
   exit 1
 fi
 
+# Check for UNTRACKED build inputs — diff-index only sees tracked files. An
+# untracked file (e.g. a new page, or src/nav.order.json which the build
+# requires) would publish fine from this machine while leaving main
+# unbuildable for every other clone.
+UNTRACKED=$(git ls-files --others --exclude-standard -- src layouts public build.ts package.json)
+if [ -n "$UNTRACKED" ]; then
+  echo -e "${YELLOW}⚠️  Untracked build inputs would be published without being committed:${NC}"
+  echo "$UNTRACKED" | sed 's/^/    /'
+  echo "Please git add + commit them first (drafts too — underscore-prefixed files stay unpublished)"
+  exit 1
+fi
+
 # Step 1: Build the site
 echo -e "${BLUE}📦 Building site...${NC}"
 npm run build

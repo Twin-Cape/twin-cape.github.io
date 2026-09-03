@@ -1,6 +1,5 @@
 ---
 title: Home
-nav_order: 1
 ---
 
 # Welcome to Twin Cape
@@ -13,7 +12,7 @@ Twin Cape Asset Management is a Canadian investment management firm based in Tor
 
 We leverage proprietary insights and in-house technology to offer innovative investment services to our clients.
 
-Find out [what we offer](offerings.md).
+Find out [what we offer](offerings.html).
 
 ## What Makes Us Unique
 
@@ -27,4 +26,4 @@ Find out [what we offer](offerings.md).
 2. **Taking a long term view.** We take a long term view on both investments and people. We encourage partners to become familiar with our approach many years before ever writing a check.
 3. **Producing delightful investment outcomes.** The caliber of our partners demands that we realize the full force of our financial acumen to deliver the very best results.
 
-Learn more about [our philosophy](philosophy.html)
+Meet [our team](team.html)

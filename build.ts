@@ -69,8 +69,6 @@ function analyticsSnippet(): string {
 
 interface FrontMatter {
   title?: string;
-  nav_order?: string;
-  nav_parent?: string;
   [key: string]: string | undefined;
 }
 
@@ -82,7 +80,6 @@ interface ParsedContent {
 interface NavItem {
   title: string;
   path: string;
-  order?: number;
   children?: NavItem[];
 }
 
@@ -97,11 +94,11 @@ function ensureDir(dir: string): void {
 // Expects format:
 // ---
 // title: Page Title
-// nav_order: 1
-// nav_parent: /path
 // ---
 function parseFrontMatter(content: string): ParsedContent {
-  const frontMatterRegex = /^---\n([\s\S]*?)\n---\n([\s\S]*)$/;
+  // Tolerate CRLF line endings (Windows editors, core.autocrlf checkouts) —
+  // otherwise the frontmatter silently fails to match and leaks into the page.
+  const frontMatterRegex = /^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/;
   const match = content.match(frontMatterRegex);
 
   if (!match) {
@@ -112,7 +109,7 @@ function parseFrontMatter(content: string): ParsedContent {
   const lines = match[1].split('\n');
 
   lines.forEach((line) => {
-    const [key, ...valueParts] = line.split(':');
+    const [key, ...valueParts] = line.trimEnd().split(':');
     if (key && valueParts.length > 0) {
       const value = valueParts.join(':').trim();
       metadata[key.trim()] = value;
@@ -132,44 +129,242 @@ function loadTemplate(templateName = 'page.html'): string {
   return fs.readFileSync(templatePath, 'utf-8');
 }
 
-// Build navigation structure from source tree
-function buildNavigation(srcPath: string = SRC_DIR, navPath = ''): NavItem[] {
-  const nav: NavItem[] = [];
-  const items = fs.readdirSync(srcPath);
+// ---------------------------------------------------------------------------
+// Navigation order spec — src/nav.order.json
+//
+// Nav order is controlled by ONE file instead of per-page frontmatter. It is
+// an ordered JSON array: an entry's position in the array IS its position in
+// the nav, top to bottom. Entries are either a markdown filename (relative to
+// its directory) or, for a submenu, an object mapping a directory name to its
+// own ordered array:
+//
+//   [
+//     "index.md",
+//     "faq.md",
+//     { "essays": ["how-to-invest-well.md", "when-to-sell.md"] }
+//   ]
+//
+// To reorder the nav, reorder the lines. The build FAILS LOUDLY if the spec
+// and the files on disk disagree in any way — missing, extra, duplicate, or
+// misspelled entries — so the spec can never silently drift from reality.
+// Page titles still come from each file's `title:` frontmatter. Files AND
+// directories whose names start with "_" are drafts: excluded from the nav,
+// the spec, and the published output.
+// ---------------------------------------------------------------------------
 
-  items.forEach((item) => {
-    const fullPath = path.join(srcPath, item);
-    const stat = fs.statSync(fullPath);
-    const relPath = navPath ? `${navPath}/${item}` : item;
+const NAV_ORDER_FILE = path.join(SRC_DIR, 'nav.order.json');
+const NAV_ORDER_BASENAME = path.basename(NAV_ORDER_FILE);
+const NAV_ORDER_REL = path.relative(__dirname, NAV_ORDER_FILE);
 
-    if (stat.isDirectory()) {
-      const subNav = buildNavigation(fullPath, relPath);
-      if (subNav.length > 0) {
-        nav.push({
-          title: item
-            .replace(/-/g, ' ')
-            .replace(/^\w/, (c) => c.toUpperCase()),
-          path: relPath,
-          children: subNav,
-        });
-      }
-    } else if (item.endsWith('.md') && !item.startsWith('_')) {
-      const mdContent = fs.readFileSync(fullPath, 'utf-8');
-      const { metadata } = parseFrontMatter(mdContent);
+// A validated, ready-to-render page. Collected while the spec is validated so
+// rendering works from the same snapshot validation approved — files added,
+// changed, or deleted mid-build cannot slip past (or crash) the render pass.
+interface NavPage {
+  urlPath: string;   // e.g. "/" or "/essays/when-to-sell.html"
+  content: string;   // raw markdown, frontmatter included
+}
 
-      const navPath = relPath === 'index.md' ? '/' : `/${relPath.replace('.md', '.html')}`;
-      nav.push({
-        title: metadata.title ?? item.replace('.md', '').replace(/-/g, ' '),
-        path: navPath,
-        order: parseInt(metadata.nav_order ?? '999', 10),
-      });
-    }
+// stat() that treats unreadable entries (broken symlinks, permission holes)
+// as absent instead of crashing the build with a raw ENOENT/ELOOP.
+function safeStat(fullPath: string): fs.Stats | null {
+  try {
+    return fs.statSync(fullPath);
+  } catch {
+    return null;
+  }
+}
+
+// Files that never appear in the nav: hidden, underscore-prefixed (drafts),
+// non-markdown (e.g. the spec file itself lives in src/). The .md test is
+// case-insensitive so a Finder-renamed "NOTES.MD" can't silently vanish.
+function navigableFiles(dir: string): string[] {
+  return fs.readdirSync(dir).filter((item) => {
+    if (item.startsWith('.') || item.startsWith('_') || !/\.md$/i.test(item)) return false;
+    return safeStat(path.join(dir, item))?.isFile() ?? false;
   });
+}
 
-  // Sort by order
-  nav.sort((a, b) => (a.order ?? 999) - (b.order ?? 999));
+// Non-draft directories that (recursively) contain at least one navigable page.
+function navigableDirs(dir: string): string[] {
+  return fs.readdirSync(dir).filter((item) => {
+    if (item.startsWith('.') || item.startsWith('_')) return false;
+    const full = path.join(dir, item);
+    return (safeStat(full)?.isDirectory() ?? false) && hasNavigablePages(full);
+  });
+}
 
-  return nav;
+function hasNavigablePages(dir: string): boolean {
+  return navigableFiles(dir).length > 0
+    || navigableDirs(dir).length > 0;
+}
+
+// Generate spec JSON matching what is currently on disk (alphabetical), used
+// to bootstrap a missing spec file with paste-ready content.
+function scaffoldNavSpec(dir: string = SRC_DIR): unknown[] {
+  const entries: unknown[] = [...navigableFiles(dir)].sort();
+  for (const sub of navigableDirs(dir).sort()) {
+    entries.push({ [sub]: scaffoldNavSpec(path.join(dir, sub)) });
+  }
+  return entries;
+}
+
+// Load src/nav.order.json, validate it EXACTLY matches the pages on disk, and
+// build the nav tree in spec order. Any mismatch collects into one aggregate
+// error so a single failed build reports every problem at once. Returns the
+// nav tree AND the validated page snapshot that the render pass works from.
+function buildNavigation(): { navItems: NavItem[]; pages: NavPage[] } {
+  if (!fs.existsSync(NAV_ORDER_FILE)) {
+    throw new Error(
+      `✗ Missing ${NAV_ORDER_REL} — nav order is defined there (array position = nav position).\n`
+      + `  Create it with the following content (current pages, alphabetical), then reorder to taste:\n\n`
+      + JSON.stringify(scaffoldNavSpec(), null, 2),
+    );
+  }
+
+  const raw = fs.readFileSync(NAV_ORDER_FILE, 'utf-8');
+  let spec: unknown;
+  try {
+    spec = JSON.parse(raw);
+  } catch (error) {
+    throw new Error(
+      `✗ ${NAV_ORDER_REL} is not valid JSON: ${(error as Error).message}\n`
+      + `  (Watch for trailing commas and unquoted strings — JSON allows neither.)`,
+    );
+  }
+
+  const errors: string[] = [];
+  const pages: NavPage[] = [];
+
+  function walk(entries: unknown, dir: string, navPath: string): NavItem[] {
+    const here = navPath ? `${navPath}/` : '';
+
+    if (!Array.isArray(entries)) {
+      errors.push(`"${here || '(top level)'}" must be a JSON array of entries, got ${typeof entries}`);
+      return [];
+    }
+
+    const actualFiles = navigableFiles(dir);
+    const actualDirs = navigableDirs(dir);
+    const seenFiles = new Set<string>();
+    const seenDirs = new Set<string>();
+    const nav: NavItem[] = [];
+
+    for (const entry of entries) {
+      if (typeof entry === 'string') {
+        if (entry.includes('/')) {
+          errors.push(`"${entry}" contains a slash — nest directories as { "dirname": [ ... ] } instead`);
+          continue;
+        }
+        if (entry.startsWith('_')) {
+          errors.push(`"${here}${entry}" is a draft (underscore-prefixed) and never appears in the nav — remove it from the spec`);
+          continue;
+        }
+        if (!/\.md$/i.test(entry)) {
+          errors.push(`"${here}${entry}" must be a markdown filename ending in .md (did you mean "${entry.replace(/\.html?$/i, '')}.md"?)`);
+          continue;
+        }
+        if (seenFiles.has(entry)) {
+          errors.push(`"${here}${entry}" is listed more than once`);
+          continue;
+        }
+        seenFiles.add(entry);
+        if (!actualFiles.includes(entry)) {
+          // Exact-case match failed; a case-insensitive hit means a casing typo
+          // (macOS's case-insensitive FS would otherwise mask it until deploy).
+          const caseTwin = actualFiles.find((f) => f.toLowerCase() === entry.toLowerCase());
+          if (caseTwin) {
+            errors.push(`"${here}${entry}" does not match the file's exact casing — use "${caseTwin}"`);
+            continue;
+          }
+          const unlisted = actualFiles.filter((f) => !entries.includes(f));
+          const hint = unlisted.length ? ` — files on disk not yet listed: ${unlisted.join(', ')}` : '';
+          errors.push(`"${here}${entry}" does not exist in src/${here}${hint}`);
+          continue;
+        }
+
+        const raw = fs.readFileSync(path.join(dir, entry), 'utf-8');
+        const { metadata } = parseFrontMatter(raw);
+        if (metadata.nav_order !== undefined || metadata.nav_parent !== undefined) {
+          errors.push(`"${here}${entry}" still has nav_order/nav_parent frontmatter — nav order now lives only in ${NAV_ORDER_REL}; delete those lines`);
+        }
+        const relPath = `${here}${entry}`;
+        const urlPath = relPath === 'index.md' ? '/' : `/${relPath.replace(/\.md$/i, '.html')}`;
+        pages.push({ urlPath, content: raw });
+        nav.push({
+          title: metadata.title ?? entry.replace(/\.md$/i, '').replace(/-/g, ' '),
+          path: urlPath,
+        });
+      } else if (entry !== null && typeof entry === 'object' && !Array.isArray(entry)) {
+        const keys = Object.keys(entry as Record<string, unknown>);
+        if (keys.length !== 1) {
+          errors.push(`directory entries must have exactly one key, got {${keys.join(', ')}} under "${here || '(top level)'}"`);
+          continue;
+        }
+        const [dirName] = keys;
+        if (dirName.startsWith('_')) {
+          errors.push(`directory "${here}${dirName}" is a draft (underscore-prefixed) and never appears in the nav or the published site — remove it from the spec`);
+          continue;
+        }
+        if (seenDirs.has(dirName)) {
+          errors.push(`directory "${here}${dirName}" is listed more than once`);
+          continue;
+        }
+        seenDirs.add(dirName);
+        if (!actualDirs.includes(dirName)) {
+          // Check for a casing typo BEFORE fs.existsSync — on macOS's
+          // case-insensitive FS, existsSync("Essays") finds "essays" and the
+          // branches below would misdiagnose the problem as an empty directory.
+          const caseTwin = actualDirs.find((d) => d.toLowerCase() === dirName.toLowerCase());
+          const full = path.join(dir, dirName);
+          if (caseTwin) {
+            errors.push(`directory "${here}${dirName}" does not match the directory's exact casing — use "${caseTwin}"`);
+          } else if (safeStat(full)?.isFile()) {
+            errors.push(`"${here}${dirName}" is a file, not a directory — list it as a plain string entry`);
+          } else if (safeStat(full)?.isDirectory()) {
+            errors.push(`directory "${here}${dirName}" contains no pages — remove it from the spec`);
+          } else {
+            errors.push(`directory "${here}${dirName}" does not exist in src/${here}`);
+          }
+          continue;
+        }
+        const children = walk(
+          (entry as Record<string, unknown>)[dirName],
+          path.join(dir, dirName),
+          `${here}${dirName}`,
+        );
+        nav.push({
+          title: dirName.replace(/-/g, ' ').replace(/^\w/, (c) => c.toUpperCase()),
+          path: `${here}${dirName}`,
+          children,
+        });
+      } else {
+        errors.push(`unsupported entry ${JSON.stringify(entry)} under "${here || '(top level)'}" — use "file.md" or { "dirname": [ ... ] }`);
+      }
+    }
+
+    const unlistedFiles = actualFiles.filter((f) => !seenFiles.has(f));
+    const unlistedDirs = actualDirs.filter((d) => !seenDirs.has(d));
+    for (const f of unlistedFiles) {
+      errors.push(`src/${here}${f} exists on disk but is not in the spec — add "${f}" where it belongs in the order`);
+    }
+    for (const d of unlistedDirs) {
+      errors.push(`src/${here}${d}/ has pages but is not in the spec — add { "${d}": [ ... ] } where it belongs in the order`);
+    }
+
+    return nav;
+  }
+
+  const navItems = walk(spec, SRC_DIR, '');
+
+  if (errors.length > 0) {
+    throw new Error(
+      `✗ ${NAV_ORDER_REL} does not match the pages in src/ (${errors.length} problem${errors.length === 1 ? '' : 's'}):\n\n`
+      + errors.map((e) => `  • ${e}`).join('\n')
+      + `\n\nEvery page must be listed exactly once; array position = nav position.`,
+    );
+  }
+
+  return { navItems, pages };
 }
 
 // Render navigation as HTML
@@ -231,10 +426,9 @@ function renderFigures(html: string): string {
   );
 }
 
-// Process a single markdown file
-function processMarkdown(srcFile: string, relDir: string): string {
-  const content = fs.readFileSync(srcFile, 'utf-8');
-  const { metadata, content: mdContent } = parseFrontMatter(content);
+// Render a validated page (from the buildNavigation snapshot) to full HTML
+function processMarkdown(page: NavPage, navItems: NavItem[]): string {
+  const { metadata, content: mdContent } = parseFrontMatter(page.content);
 
   // Parse markdown to HTML
   let htmlContent = marked(mdContent) as string;
@@ -254,16 +448,11 @@ function processMarkdown(srcFile: string, relDir: string): string {
   // Wrap standalone images in <figure>/<figcaption>.
   htmlContent = renderFigures(htmlContent);
 
-  // Load and render template
+  // Load and render template. The page's canonical URL comes straight from
+  // the validated snapshot, so the nav's active-link match and the output
+  // filename can never disagree with the nav's own hrefs.
   const template = loadTemplate();
-  const nav = buildNavigation(SRC_DIR);
-  const baseName = path.basename(srcFile, '.md');
-  const currentPath = (relDir === '' && baseName === 'index')
-    ? '/'
-    : relDir === ''
-      ? `/${baseName}.html`
-      : `/${relDir}/${baseName}.html`;
-  const navHtml = renderNav(nav, currentPath);
+  const navHtml = renderNav(navItems, page.urlPath);
 
   let html = template
     .replace(/{{title}}/g, metadata.title ?? 'Page')
@@ -314,40 +503,29 @@ function minifyHTMLOutput(html: string): string {
   }
 }
 
-// Recursively process all markdown files
-function processDirectory(dir: string, baseDir = ''): void {
+// Render every page from the validated snapshot. Working from the snapshot —
+// not a fresh directory walk — means files added/removed after validation
+// can neither publish unvalidated content nor crash a half-cleaned build,
+// and draft (underscore-prefixed) files and directories are never emitted.
+function renderPages(pages: NavPage[], navItems: NavItem[]): void {
   ensureDir(DIST_DIR);
 
-  const items = fs.readdirSync(dir);
+  pages.forEach((page) => {
+    const htmlContent = processMarkdown(page, navItems);
+    const minifiedHTML = minifyHTMLOutput(htmlContent);
+    const relOut = page.urlPath === '/' ? 'index.html' : page.urlPath.replace(/^\//, '');
+    const distPath = path.join(DIST_DIR, relOut);
 
-  items.forEach((item) => {
-    if (item.startsWith('.')) return;
+    ensureDir(path.dirname(distPath));
+    fs.writeFileSync(distPath, minifiedHTML, 'utf-8');
 
-    const srcPath = path.join(dir, item);
-    const stat = fs.statSync(srcPath);
-    const relDir = baseDir ? `${baseDir}/${item}` : item;
-
-    if (stat.isDirectory()) {
-      const distDirPath = path.join(DIST_DIR, relDir);
-      ensureDir(distDirPath);
-      processDirectory(srcPath, relDir);
-    } else if (item.endsWith('.md') && !item.startsWith('_')) {
-      const htmlContent = processMarkdown(srcPath, baseDir);
-      const minifiedHTML = minifyHTMLOutput(htmlContent);
-      const htmlFileName = item.replace('.md', '.html');
-      const distPath = path.join(DIST_DIR, baseDir, htmlFileName);
-
-      ensureDir(path.dirname(distPath));
-      fs.writeFileSync(distPath, minifiedHTML, 'utf-8');
-
-      // Verify minification preserved structure
-      if (minifiedHTML.length === 0) {
-        console.error(`✗ ERROR: Minification resulted in empty output for ${path.join(baseDir, htmlFileName)}`);
-      } else if (!minifiedHTML.includes('<nav')) {
-        console.error(`✗ ERROR: Navigation missing after minification for ${path.join(baseDir, htmlFileName)}`);
-      }
-      console.log(`✓ Built: ${path.join(baseDir, htmlFileName)}`);
+    // Verify minification preserved structure
+    if (minifiedHTML.length === 0) {
+      console.error(`✗ ERROR: Minification resulted in empty output for ${relOut}`);
+    } else if (!minifiedHTML.includes('<nav')) {
+      console.error(`✗ ERROR: Navigation missing after minification for ${relOut}`);
     }
+    console.log(`✓ Built: ${relOut}`);
   });
 }
 
@@ -498,10 +676,15 @@ function cleanDistDirectory(): void {
 async function build(): Promise<void> {
   console.log('🔨 Building site...\n');
 
+  // Validate the nav spec against src/ BEFORE touching dist, so a bad spec
+  // fails the build without wiping the previous good output. Page content is
+  // snapshotted here too — rendering never re-reads src/.
+  const { navItems, pages } = buildNavigation();
+
   // Clean dist before each build to avoid stale fingerprinted files
   cleanDistDirectory();
   compileClientScripts();
-  processDirectory(SRC_DIR);
+  renderPages(pages, navItems);
   await copyCSSFiles();
   copyPublicAssets();
 
@@ -542,7 +725,7 @@ function watch(): void {
   void queuedBuild();
 
   fs.watch(SRC_DIR, { recursive: true }, (_eventType, filename) => {
-    if (filename && filename.endsWith('.md')) {
+    if (filename && (filename.endsWith('.md') || path.basename(filename) === NAV_ORDER_BASENAME)) {
       console.log(`\n📝 Changed: ${filename}`);
       void queuedBuild();
     }

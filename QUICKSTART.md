@@ -25,7 +25,6 @@ npm run watch
 ```markdown
 ---
 title: My Page Title
-nav_order: 2
 ---
 
 # Page Heading
@@ -37,6 +36,10 @@ Your content here in **markdown**.
 - Bullet points
 - Work great
 ```
+
+Then add the filename to `src/nav.order.json` where you want it to appear in
+the nav — array position = nav position. The build fails with a helpful error
+if you forget.
 
 ### 2. Add images
 
@@ -70,8 +73,8 @@ Files are now in `dist/` ready for GitHub Pages.
 
 ## Key Features
 
-- **Automatic Navigation** - Built from your directory structure
-- **Import Front Matter** - Set `title` and `nav_order` at top of files
+- **Automatic Navigation** - Built from your directory structure, ordered by `src/nav.order.json`
+- **Import Front Matter** - Set `title` at top of files
 - **Hierarchical Pages** - Use folders to organize (e.g., `services/equity-funds.md`)
 - **Professional Styling** - Responsive, investment-firm themed template included
 - **Image Support** - Simple markdown syntax with automatic path handling
@@ -88,7 +91,7 @@ Edit `layouts/page.html`:
 ### Add new template features
 1. Edit `layouts/page.html`
 2. Add new `{{placeholder}}` 
-3. Update `build.js` to populate it:
+3. Update `build.ts` to populate it:
    ```javascript
    html = html.replace(/{{placeholder}}/g, value);
    ```
@@ -98,7 +101,7 @@ Edit `layouts/page.html`:
 The current structure supports easy additions:
 
 1. **Data files** - Create `src/data.json` for products/testimonials
-2. **API integration** - Modify build.js to fetch and inject data
+2. **API integration** - Modify build.ts to fetch and inject data
 3. **Server** - Add Express server to serve with dynamic content
 4. **Blog** - Extend with date-based post generation
 
