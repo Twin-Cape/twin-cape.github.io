@@ -426,6 +426,78 @@ function renderFigures(html: string): string {
   );
 }
 
+// Wrap heading-led blocks into "showcase" containers. Pages opt in via
+// frontmatter `style: showcase` (currently the funds page). Each H2 and the
+// content after it (until the next H2/H3) becomes a title moment; each H3
+// and its content becomes a full-bleed band section. Content before the first
+// H2/H3 — the hero H1 and its subtitle — is left untouched so the site-wide
+// hero treatment still applies. Styled by the SHOWCASE section of style.css;
+// the .showcase-* classes exist only on opted-in pages, so nothing else moves.
+function wrapShowcaseSections(html: string): string {
+  // Section boundaries are <h2>/<h3> tags at the TOP LEVEL of the document
+  // only. A heading authored inside a blockquote or list (e.g. `> ### quip`)
+  // must not become a boundary — slicing there would tear its container's
+  // open/close tags across two sections. One pass tracks container depth.
+  const tokenRe = /<(\/?)(?:blockquote|ul|ol)\b|<(h[23])\b/gi;
+  const cuts: Array<{ index: number; level: string }> = [];
+  let depth = 0;
+  let m: RegExpExecArray | null;
+  while ((m = tokenRe.exec(html)) !== null) {
+    if (m[2]) {
+      if (depth === 0) cuts.push({ index: m.index, level: m[2].toLowerCase() });
+    } else {
+      depth = Math.max(0, depth + (m[1] ? -1 : 1));
+    }
+  }
+  if (cuts.length === 0) return html;
+
+  // Each H2 opens a <section class="showcase-fund"> grouping that fund's
+  // title band and every section until the next H2. When there is more than
+  // one fund, a sticky index bar (.showcase-index) is emitted before the
+  // first fund: it lists every fund as an anchor link, and nav.js highlights
+  // the active fund with a sliding gilt marker as the reader scrolls.
+  // Content before the first heading (hero H1 + subtitle) stays unwrapped.
+  const funds: Array<{ slug: string; label: string }> = [];
+  const seenSlugs = new Set<string>();
+  cuts.forEach((cut, i) => {
+    if (cut.level !== 'h2') return;
+    const chunk = html.slice(cut.index, i + 1 < cuts.length ? cuts[i + 1].index : undefined);
+    const title = chunk.match(/<h2[^>]*>([\s\S]*?)<\/h2>/i);
+    const text = title ? title[1].replace(/<[^>]*>/g, '').trim() : `Fund ${funds.length + 1}`;
+    let slug = 'fund-' + text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+    while (seenSlugs.has(slug)) slug += '-x';
+    seenSlugs.add(slug);
+    // Menu labels drop the headline's terminal punctuation.
+    funds.push({ slug, label: text.replace(/[.!?]\s*$/, '') });
+  });
+
+  // Not a bare <nav> — the global stylesheet styles that element as the
+  // site nav bar (as it does `header`), and those rules would leak in.
+  const indexHtml = funds.length > 1
+    ? '<div class="showcase-index" role="navigation" aria-label="Funds">'
+      + funds.map((f) => `<a href="#${f.slug}">${f.label}</a>`).join('')
+      + '<span class="showcase-index-marker" aria-hidden="true"></span></div>'
+    : '';
+
+  let out = html.slice(0, cuts[0].index);
+  let fundIdx = -1;
+  cuts.forEach((cut, i) => {
+    const chunk = html.slice(cut.index, i + 1 < cuts.length ? cuts[i + 1].index : undefined);
+    if (cut.level === 'h2') {
+      if (fundIdx >= 0) out += '</section>';
+      fundIdx += 1;
+      if (fundIdx === 0) out += indexHtml;
+      out += `<section class="showcase-fund" id="${funds[fundIdx].slug}">`
+        + `<div class="showcase-head">${chunk}</div>`;
+    } else {
+      out += `<section class="showcase-band">${chunk}</section>`;
+    }
+  });
+  if (fundIdx >= 0) out += '</section>';
+
+  return out;
+}
+
 // Render a validated page (from the buildNavigation snapshot) to full HTML
 function processMarkdown(page: NavPage, navItems: NavItem[]): string {
   const { metadata, content: mdContent } = parseFrontMatter(page.content);
@@ -448,6 +520,11 @@ function processMarkdown(page: NavPage, navItems: NavItem[]): string {
   // Wrap standalone images in <figure>/<figcaption>.
   htmlContent = renderFigures(htmlContent);
 
+  // Opt-in per-page treatment: wrap H2/H3 sections into showcase bands/cards.
+  if (metadata.style === 'showcase') {
+    htmlContent = wrapShowcaseSections(htmlContent);
+  }
+
   // Load and render template. The page's canonical URL comes straight from
   // the validated snapshot, so the nav's active-link match and the output
   // filename can never disagree with the nav's own hrefs.
@@ -468,7 +545,11 @@ function processMarkdown(page: NavPage, navItems: NavItem[]): string {
 async function processCSS(cssContent: string): Promise<string> {
   try {
     const result = await postcss([autoprefixer]).process(cssContent, { from: undefined });
-    const minified = csso.minify(result.css).css;
+    // restructure:false — csso's rule merging rewrites `animation: X ...` +
+    // `animation-timeline: view()` pairs into an order where the shorthand
+    // resets the timeline, silently killing scroll-driven animations in the
+    // shipped CSS. Costs a few hundred bytes; correctness wins.
+    const minified = csso.minify(result.css, { restructure: false }).css;
     return minified;
   } catch (error) {
     console.error('CSS processing error:', error);
