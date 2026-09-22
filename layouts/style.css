@@ -1583,8 +1583,10 @@ main > .showcase-index a.is-active {
 
 .showcase-fund {
     position: relative;
-    /* Anchor jumps from the index land below the nav + bar. */
-    scroll-margin-top: 7rem;
+    /* Anchor jumps from the index land below the nav + bar. Fallback
+       only — nav.js overrides this with the measured geometry so the
+       landing always crosses the bar's active-tracking line. */
+    scroll-margin-top: 6rem;
 }
 
 /* Breathing room between one fund's last section and the next fund's
