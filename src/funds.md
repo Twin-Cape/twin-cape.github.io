@@ -27,7 +27,7 @@ We take a principled approach for our most coveted fund:
 2. **Analysis.** Scrutiny of individual securities, powered by a proprietary analytical playbook, refined over many years.
 3. **Risk Management.** A unique blend of proven and bleeding-edge asset-protection methods achieves leading risk mitigation.
 
-### Next level, but even more so.
+### Next level.
 
 Nova funds get only the best ideas we find. No less.
 
@@ -41,7 +41,7 @@ Saturn funds express our investment approach in a more traditional, more diversi
 
 ### Compliant.
 
-Saturn funds are suitable for registered accounts.
+Suitable for registered accounts.
 
 ### Unexpectedly thoughtful.
 
@@ -54,6 +54,30 @@ We go above and beyond:
 ### A true set-and-forget.
 
 Saturn offers tried-and-true portfolios for a core holding.
+
+## Blanc, for yield.
+
+More in your pocket.
+
+### Diversified income generation.
+
+The Blanc funds focus on cash flow.
+
+### More in your pocket.
+
+Consistent yield, paired with inflation protection, so you can do more.
+
+### Quality-focused.
+
+We set a high bar:
+
+1. **Track record.** Blanc fund investments are companies with long track records of resilience and cash generation.
+2. **Conservative.** We look for stable operations, coupled with capable management and a mindset for doing less.
+3. **Income.** Blending equities, credit, and structured yield offerings allows us to build the right portfolio for you.
+
+### Premium yield, for premium results.
+
+Because you deserve the best.
 
 ## The Satellite Funds
 
@@ -75,6 +99,6 @@ Peak behind the curtains and experience our fund:
 2. **Involvement.** Learn, first-hand, how Twin Cape ideates, formalizes, and stress-tests its asset allocation approach.
 3. **Participation.** Earn upside as Satellite funds produce successful investment outcomes, like any fund.
 
-### Invest in a process that works.
+### A process that works.
 
 Our research regularly produces high-quality strategies that feed into formal fund strategies.
