@@ -78,6 +78,14 @@
         const sticky = nav && getComputedStyle(nav).position === 'sticky';
         const offset = sticky ? nav.getBoundingClientRect().height : 0;
         index.style.top = `${Math.max(0, Math.floor(offset) - 1)}px`;
+        // Anchor jumps must land the fund's top just ABOVE the bar's
+        // tracking line (bar bottom), or the active marker won't flip to
+        // the clicked fund. The CSS scroll-margin-top is a static fallback;
+        // this refines it to the measured nav + bar geometry.
+        const landing = Math.floor(offset + index.getBoundingClientRect().height) - 3;
+        funds.forEach((fund) => {
+            fund.style.scrollMarginTop = `${Math.max(0, landing)}px`;
+        });
     };
     let current = -1;
     const setActive = (i) => {
