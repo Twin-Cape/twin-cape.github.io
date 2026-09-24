@@ -11,21 +11,21 @@ What we offer.
 
 At our best.
 
-### Calibrated. Precise. Performant.
+### Calibrated. Precise. Intentional.
 
 The Twin Cape Nova funds represent the culmination of nearly a decade of manager experience.
 
 ### Built different.
 
-Our Nova funds are backed by true track records, hardened across cycles and proven to be resilient.
+Our Nova funds are backed by real track records, hardened across cycles and focused on resilience.
 
-### Simply, better.
+### Simply, refined.
 
-We take a principled approach for our most coveted fund:
+We have developed a principled approach for our most defining fund:
 
 1. **Simplicity.** Nova is unlevered, long-only, vanilla equities. A strategy that anyone could replicate, taken to the next level.
-2. **Analysis.** Scrutiny of individual securities, powered by a proprietary analytical playbook, refined over many years.
-3. **Risk Management.** A unique blend of proven and bleeding-edge asset-protection methods achieves leading risk mitigation.
+2. **Analysis.** Scrutiny of individual securities, powered by a proprietary analytical playbook, honed over many years.
+3. **Risk Management.** A unique blend of proven and bleeding-edge asset-protection methods achieves holistic risk mitigation.
 
 ### Next level.
 
@@ -39,7 +39,7 @@ When you want more.
 
 Saturn funds express our investment approach in a more traditional, more diversified, investment vehicle.
 
-### Compliant.
+### Reliable.
 
 Suitable for registered accounts.
 
@@ -48,7 +48,7 @@ Suitable for registered accounts.
 We go above and beyond:
 
 1. **Selection.** We neutralize sector attribution effects to focus on our strength — stock picking.
-2. **Capture.** We tend to see more opportunities than Nova can act on; Saturn captures that upside.
+2. **Capture.** Capitalize on a wider range of opportunities than Nova.
 3. **Resilient.** Diversification improves risk-adjusted returns, without degrading overall performance.
 
 ### A true set-and-forget.
@@ -71,9 +71,9 @@ Consistent yield, paired with inflation protection, so you can do more.
 
 We set a high bar:
 
-1. **Track record.** Blanc fund investments are companies with long track records of resilience and cash generation.
-2. **Conservative.** We look for stable operations, coupled with capable management and a mindset for doing less.
-3. **Income.** Blending equities, credit, and structured yield offerings allows us to build the right portfolio for you.
+1. **Track record.** Blanc fund investments have long track records of resilience and cash generation.
+2. **Conservative.** We look for proven operations, coupled with capable management and a mindset for stability.
+3. **Income.** Blending equities, credit, and structured yield allows us to build the right portfolio for you.
 
 ### Premium yield, for premium results.
 
@@ -85,7 +85,7 @@ Invest in innovation.
 
 ### Your capital, building the future.
 
-Twin Cape puts its own capital to work developing novel strategies. Now, you can invest in that process too.
+Twin Cape puts its own capital to work developing novel strategies. Now, you can invest alongside that process too.
 
 ### Get paid to invent.
 
@@ -93,7 +93,7 @@ Roll Satellite units into main fund units on favourable terms, when successful s
 
 ### Unprecedented access.
 
-Peak behind the curtains and experience our fund:
+Peak behind the curtains and experience the frontier:
 
 1. **Transparency.** Immerse yourself in the research and development process for cutting-edge investment strategies.
 2. **Involvement.** Learn, first-hand, how Twin Cape ideates, formalizes, and stress-tests its asset allocation approach.
