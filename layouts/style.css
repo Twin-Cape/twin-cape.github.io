@@ -1592,7 +1592,7 @@ main > .showcase-index a.is-active {
 /* Breathing room between one fund's last section and the next fund's
    title band (which is ink-on-ink against a closing ink room otherwise). */
 main > .showcase-fund + .showcase-fund {
-    margin-top: clamp(4rem, 7vw, 6.5rem);
+    margin-top: clamp(5rem, 8.5vw, 8rem);
 }
 
 /* ---- Fund title band: full-bleed deep ink with the fund's tint —
@@ -1600,7 +1600,7 @@ main > .showcase-fund + .showcase-fund {
         reads as a new section from across the room. ---- */
 
 .showcase-head {
-    padding: clamp(5rem, 9vw, 8rem) max(var(--gutter), calc((100% - 1060px) / 2)) clamp(4.5rem, 8vw, 7rem);
+    padding: clamp(6rem, 10.5vw, 9.5rem) max(var(--gutter), calc((100% - 1060px) / 2)) clamp(5.5rem, 9.5vw, 8.5rem);
     text-align: center;
     background:
         radial-gradient(
@@ -1656,8 +1656,8 @@ main > .showcase-fund + .showcase-fund {
 
 .showcase-band {
     margin: 0;
-    padding-top: clamp(4.5rem, 8vw, 7.5rem);
-    padding-bottom: clamp(4.5rem, 8vw, 7.5rem);
+    padding-top: clamp(5rem, 8.5vw, 8rem);
+    padding-bottom: clamp(5rem, 8.5vw, 8rem);
     padding-inline: max(var(--gutter), calc((100% - 1060px) / 2));
     text-align: center;
     position: relative;
@@ -1690,8 +1690,8 @@ main > .showcase-fund + .showcase-fund {
 /* Every second section inverts to a tall full-bleed ink room carrying
    the fund's accent tint — the hero subtitle band's move. */
 .showcase-band:nth-of-type(even) {
-    padding-top: clamp(6rem, 10vw, 9rem);
-    padding-bottom: clamp(6rem, 10vw, 9rem);
+    padding-top: clamp(6.5rem, 11vw, 10rem);
+    padding-bottom: clamp(6.5rem, 11vw, 10rem);
     background:
         radial-gradient(
             ellipse 85% 80% at 50% -20%,
@@ -1720,10 +1720,18 @@ main > .showcase-fund + .showcase-fund {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: clamp(2rem, 4vw, 3.2rem);
-    margin: clamp(3rem, 5vw, 4.2rem) auto 0 auto;
+    margin: clamp(3.6rem, 6vw, 5rem) auto 0 auto;
+    /* A quiet full-width rule between the section's heading block and
+       its pillars — structural separation for the denser sections. */
+    border-top: 1px solid var(--rule);
+    padding-top: clamp(3rem, 5vw, 4.2rem);
     max-width: none;
     text-align: left;
     counter-reset: showcase-pillar;
+}
+
+.showcase-band:nth-of-type(even) ol {
+    border-top-color: rgba(245, 243, 238, 0.16);
 }
 
 .showcase-band ol > li {
@@ -1792,7 +1800,7 @@ main > .showcase-fund + .showcase-fund {
     .showcase-band ol {
         grid-template-columns: 1fr;
         gap: 1.9rem;
-        margin-top: clamp(2.6rem, 4vw, 3.6rem);
+        margin-top: clamp(3.2rem, 5vw, 4.4rem);
     }
 }
 
